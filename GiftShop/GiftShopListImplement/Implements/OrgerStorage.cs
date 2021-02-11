@@ -103,18 +103,39 @@ namespace GiftShopListImplement.Implements
             throw new Exception("Элемент не найден");
         }
 
-        private Order CreateModel(OrderBindingModel model, Order component)
+        private Order CreateModel(OrderBindingModel model, Order order)
         {
-            component.ProductId = model.ProductId;
-            return component;
+            order.ProductId = model.ProductId;
+            order.Count = model.Count;
+            order.Sum = model.Sum;
+            order.Status = model.Status;
+            order.DateCreate = model.DateCreate;
+            order.DateImplement = model.DateImplement;
+            return order;
         }
 
-        private OrderViewModel CreateModel(Order component)
+        private OrderViewModel CreateModel(Order order)
         {
+            string productName = null;
+
+            foreach (var product in source.Products)
+            {
+                if (product.Id == order.ProductId)
+                {
+                    productName = product.ProductName;
+                }
+            }
+
             return new OrderViewModel
             {
-                Id = component.Id,
-                ProductId = component.ProductId
+                Id = order.Id,
+                ProductId = order.ProductId,
+                Count = order.Count,
+                DateCreate = order.DateCreate,
+                DateImplement = order.DateImplement,
+                Sum = order.Sum,
+                Status = order.Status,
+                ProductName = productName
             };
         }
     }

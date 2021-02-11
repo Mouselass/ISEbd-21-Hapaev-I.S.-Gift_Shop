@@ -99,7 +99,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
             {
                 throw new Exception("Заказ не в статусе \"Готов\"");
             }
-            _orderStorage.Delete(new OrderBindingModel // скорее всего надо поменять обратно на инсерт
+            _orderStorage.Update(new OrderBindingModel 
             {
                 Id = order.Id,
                 ProductId = order.ProductId,
