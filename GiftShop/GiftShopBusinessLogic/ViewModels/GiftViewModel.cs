@@ -10,11 +10,11 @@ namespace GiftShopBusinessLogic.ViewModels
         public int Id { get; set; }
         [DisplayName("Название изделия")]
 
-        public string ProductName { get; set; }
+        public string GiftName { get; set; }
         [DisplayName("Цена")]
 
         public decimal Price { get; set; }
 
-        public Dictionary<int, (string, int)> ProductComponents { get; set; }
+        public Dictionary<int, (string, int)> GiftComponents { get; set; }
     }
 }

@@ -18,19 +18,19 @@ namespace GiftShopFileImplement
 
         private readonly string OrderFileName = "Order.xml";
 
-        private readonly string ProductFileName = "Product.xml";
+        private readonly string GiftFileName = "Gift.xml";
 
         public List<Component> Components { get; set; }
 
         public List<Order> Orders { get; set; }
 
-        public List<Gift> Products { get; set; }
+        public List<Gift> Gifts { get; set; }
 
         private FileDataListSingleton()
         {
             Components = LoadComponents();
             Orders = LoadOrders();
-            Products = LoadProducts();
+            Gifts = LoadGifts();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -46,7 +46,7 @@ namespace GiftShopFileImplement
         {
             SaveComponents();
             SaveOrders();
-            SaveProducts();
+            SaveGifts();
         }
 
         private List<Component> LoadComponents()
@@ -77,6 +77,12 @@ namespace GiftShopFileImplement
                 foreach (var elem in xElements)
                 {
                     OrderStatus orderStatus = 0;
+                    DateTime? dateImplement = null;
+
+                    if (elem.Element("DateImplement").Value != "") 
+                    {
+                        dateImplement = Convert.ToDateTime(elem.Element("DateImplement").Value);
+                    }
 
                     switch (elem.Element("Status").Value) 
                     {
@@ -97,37 +103,37 @@ namespace GiftShopFileImplement
                     list.Add(new Order
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        ProductId = Convert.ToInt32(elem.Element("ProductId").Value),
+                        GiftId = Convert.ToInt32(elem.Element("GiftId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = orderStatus,
                         DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
-                        DateImplement = Convert.ToDateTime(elem.Element("DateImplement").Value)
+                        DateImplement = dateImplement
                     });
                 }
             }
             return list;
         }
-        private List<Gift> LoadProducts()
+        private List<Gift> LoadGifts()
         {
             var list = new List<Gift>();
-            if (File.Exists(ProductFileName))
+            if (File.Exists(GiftFileName))
             {
-                XDocument xDocument = XDocument.Load(ProductFileName);
-                var xElements = xDocument.Root.Elements("Product").ToList();
+                XDocument xDocument = XDocument.Load(GiftFileName);
+                var xElements = xDocument.Root.Elements("Gift").ToList();
                 foreach (var elem in xElements)
                 {
                     var prodComp = new Dictionary<int, int>();
-                    foreach (var component in elem.Element("ProductComponents").Elements("ProductComponent").ToList())
+                    foreach (var component in elem.Element("GiftComponents").Elements("GiftComponent").ToList())
                     {
                         prodComp.Add(Convert.ToInt32(component.Element("Key").Value), Convert.ToInt32(component.Element("Value").Value));
                     }
                     list.Add(new Gift
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        ProductName = elem.Element("ProductName").Value,
+                        GiftName = elem.Element("GiftName").Value,
                         Price = Convert.ToDecimal(elem.Element("Price").Value),
-                        ProductComponents = prodComp
+                        GiftComponents = prodComp
                     });
                 }
             }
@@ -159,7 +165,7 @@ namespace GiftShopFileImplement
                 {
                     xElement.Add(new XElement("Order",
                     new XAttribute("Id", order.Id),
-                    new XElement("ProductId", order.ProductId),
+                    new XElement("GiftId", order.GiftId),
                     new XElement("Count", order.Count),
                     new XElement("Sum", order.Sum),
                     new XElement("Status", order.Status),
@@ -171,28 +177,28 @@ namespace GiftShopFileImplement
             }
         }
 
-        private void SaveProducts()
+        private void SaveGifts()
         {
-            if (Products != null)
+            if (Gifts != null)
             {
-                var xElement = new XElement("Products");
-                foreach (var product in Products)
+                var xElement = new XElement("Gifts");
+                foreach (var gift in Gifts)
                 {
-                    var compElement = new XElement("ProductComponents");
-                    foreach (var component in product.ProductComponents)
+                    var compElement = new XElement("GiftComponents");
+                    foreach (var component in gift.GiftComponents)
                     {
                         compElement.Add(new XElement("ProductComponent",
                         new XElement("Key", component.Key),
                         new XElement("Value", component.Value)));
                     }
-                    xElement.Add(new XElement("Product",
-                    new XAttribute("Id", product.Id),
-                    new XElement("ProductName", product.ProductName),
-                    new XElement("Price", product.Price),
+                    xElement.Add(new XElement("Gift",
+                    new XAttribute("Id", gift.Id),
+                    new XElement("GiftName", gift.GiftName),
+                    new XElement("Price", gift.Price),
                     compElement));
                 }
                 XDocument xDocument = new XDocument(xElement);
-                xDocument.Save(ProductFileName);
+                xDocument.Save(GiftFileName);
             }
         }
     }

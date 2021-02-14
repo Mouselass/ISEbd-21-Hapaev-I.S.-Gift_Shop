@@ -34,7 +34,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
         {
             _orderStorage.Insert(new OrderBindingModel
             {
-                ProductId = model.ProductId,
+                GiftId = model.GiftId,
                 Count = model.Count,
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
@@ -56,7 +56,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
-                ProductId = order.ProductId,
+                GiftId = order.GiftId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -79,7 +79,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
-                ProductId = order.ProductId,
+                GiftId = order.GiftId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -102,7 +102,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
             _orderStorage.Update(new OrderBindingModel 
             {
                 Id = order.Id,
-                ProductId = order.ProductId,
+                GiftId = order.GiftId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,

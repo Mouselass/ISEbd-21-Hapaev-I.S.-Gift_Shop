@@ -38,7 +38,7 @@ namespace GiftShopView
 
                     foreach (var order in list)
                     {
-                        dataGridView.Rows.Add(new object[] { order.Id, order.ProductId, order.ProductName, order.Count, order.Sum,
+                        dataGridView.Rows.Add(new object[] { order.Id, order.GiftId, order.GiftName, order.Count, order.Sum,
                             order.Status,order.DateCreate, order.DateImplement});
                     }
                 }
