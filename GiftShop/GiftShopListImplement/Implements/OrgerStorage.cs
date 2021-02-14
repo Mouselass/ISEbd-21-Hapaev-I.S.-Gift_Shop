@@ -36,7 +36,7 @@ namespace GiftShopListImplement.Implements
             List<OrderViewModel> result = new List<OrderViewModel>();
             foreach (var component in source.Orders)
             {
-                if (component.ProductId.ToString().Contains(model.ProductId.ToString()))
+                if (component.GiftId.ToString().Contains(model.GiftId.ToString()))
                 {
                     result.Add(CreateModel(component));
                 }
@@ -52,7 +52,7 @@ namespace GiftShopListImplement.Implements
             }
             foreach (var component in source.Orders)
             {
-                if (component.Id == model.Id || component.ProductId == model.ProductId)
+                if (component.Id == model.Id || component.GiftId == model.GiftId)
                 {
                     return CreateModel(component);
                 }
@@ -105,7 +105,7 @@ namespace GiftShopListImplement.Implements
 
         private Order CreateModel(OrderBindingModel model, Order order)
         {
-            order.ProductId = model.ProductId;
+            order.GiftId = model.GiftId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -116,26 +116,26 @@ namespace GiftShopListImplement.Implements
 
         private OrderViewModel CreateModel(Order order)
         {
-            string productName = null;
+            string giftName = null;
 
-            foreach (var product in source.Products)
+            foreach (var gift in source.Gifts)
             {
-                if (product.Id == order.ProductId)
+                if (gift.Id == order.GiftId)
                 {
-                    productName = product.ProductName;
+                    giftName = gift.GiftName;
                 }
             }
 
             return new OrderViewModel
             {
                 Id = order.Id,
-                ProductId = order.ProductId,
+                GiftId = order.GiftId,
                 Count = order.Count,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Sum = order.Sum,
                 Status = order.Status,
-                ProductName = productName
+                GiftName = giftName
             };
         }
     }

@@ -21,7 +21,7 @@ namespace GiftShopView
         public int Id { set { id = value; } }
         private readonly GiftLogic logic;
         private int? id;
-        private Dictionary<int, (string, int)> productComponents;
+        private Dictionary<int, (string, int)> giftComponents;
 
         public FormGift(GiftLogic service)
         {
@@ -29,7 +29,7 @@ namespace GiftShopView
             this.logic = service;
         }
 
-        private void FormProduct_Load(object sender, EventArgs e)
+        private void FormGift_Load(object sender, EventArgs e)
         {
             if (id.HasValue)
             {
@@ -38,9 +38,9 @@ namespace GiftShopView
                     GiftViewModel view = logic.Read(new GiftBindingModel { Id = id.Value })?[0];
                     if (view != null)
                     {
-                        textBoxName.Text = view.ProductName;
+                        textBoxName.Text = view.GiftName;
                         textBoxPrice.Text = view.Price.ToString();
-                        productComponents = view.ProductComponents;
+                        giftComponents = view.GiftComponents;
                         LoadData();
                     }
                 }
@@ -51,7 +51,7 @@ namespace GiftShopView
             }
             else
             {
-                productComponents = new Dictionary<int, (string, int)>();
+                giftComponents = new Dictionary<int, (string, int)>();
             }
         }
 
@@ -59,10 +59,10 @@ namespace GiftShopView
         {
             try
             {
-                if (productComponents != null)
+                if (giftComponents != null)
                 {
                     dataGridView.Rows.Clear();
-                    foreach (var pc in productComponents)
+                    foreach (var pc in giftComponents)
                     {
                         dataGridView.Rows.Add(new object[] { pc.Key, pc.Value.Item1, pc.Value.Item2 });
                     }
@@ -79,13 +79,13 @@ namespace GiftShopView
             var form = Container.Resolve<FormGiftComponent>();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                if (productComponents.ContainsKey(form.Id))
+                if (giftComponents.ContainsKey(form.Id))
                 {
-                    productComponents[form.Id] = (form.ComponentName, form.Count);
+                    giftComponents[form.Id] = (form.ComponentName, form.Count);
                 }
                 else
                 {
-                    productComponents.Add(form.Id, (form.ComponentName, form.Count));
+                    giftComponents.Add(form.Id, (form.ComponentName, form.Count));
                 }
                 LoadData();
             }
@@ -98,10 +98,10 @@ namespace GiftShopView
                 var form = Container.Resolve<FormGiftComponent>();
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 form.Id = id;
-                form.Count = productComponents[id].Item2;
+                form.Count = giftComponents[id].Item2;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    productComponents[form.Id] = (form.ComponentName, form.Count);
+                    giftComponents[form.Id] = (form.ComponentName, form.Count);
                     LoadData();
                 }
             }
@@ -115,7 +115,7 @@ namespace GiftShopView
                 {
                     try
                     {
-                        productComponents.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
+                        giftComponents.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
                     }
                     catch (Exception ex)
                     {
@@ -143,7 +143,7 @@ namespace GiftShopView
                 MessageBox.Show("Заполните цену", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (productComponents == null || productComponents.Count == 0)
+            if (giftComponents == null || giftComponents.Count == 0)
             {
                 MessageBox.Show("Заполните компоненты", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -153,9 +153,9 @@ namespace GiftShopView
                 logic.CreateOrUpdate(new GiftBindingModel
                 {
                     Id = id,
-                    ProductName = textBoxName.Text,
+                    GiftName = textBoxName.Text,
                     Price = Convert.ToDecimal(textBoxPrice.Text),
-                    ProductComponents = productComponents
+                    GiftComponents = giftComponents
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

@@ -19,7 +19,7 @@ namespace GiftShopListImplement.Implements
         public List<GiftViewModel> GetFullList()
         {
             List<GiftViewModel> result = new List<GiftViewModel>();
-            foreach (var component in source.Products)
+            foreach (var component in source.Gifts)
             {
                 result.Add(CreateModel(component));
             }
@@ -33,11 +33,11 @@ namespace GiftShopListImplement.Implements
                 return null;
             }
             List<GiftViewModel> result = new List<GiftViewModel>();
-            foreach (var product in source.Products)
+            foreach (var gift in source.Gifts)
             {
-                if (product.ProductName.Contains(model.ProductName))
+                if (gift.GiftName.Contains(model.GiftName))
                 {
-                    result.Add(CreateModel(product));
+                    result.Add(CreateModel(gift));
                 }
             }
             return result;
@@ -48,86 +48,86 @@ namespace GiftShopListImplement.Implements
             {
                 return null;
             }
-            foreach (var product in source.Products)
+            foreach (var gift in source.Gifts)
             {
-                if (product.Id == model.Id || product.ProductName == model.ProductName)
+                if (gift.Id == model.Id || gift.GiftName == model.GiftName)
                 {
-                    return CreateModel(product);
+                    return CreateModel(gift);
                 }
             }
             return null;
         }
         public void Insert(GiftBindingModel model)
         {
-            Gift tempProduct = new Gift { Id = 1, ProductComponents = new Dictionary<int, int>() };
-            foreach (var product in source.Products)
+            Gift tempGift = new Gift { Id = 1, GiftComponents = new Dictionary<int, int>() };
+            foreach (var gift in source.Gifts)
             {
-                if (product.Id >= tempProduct.Id)
+                if (gift.Id >= tempGift.Id)
                 {
-                    tempProduct.Id = product.Id + 1;
+                    tempGift.Id = gift.Id + 1;
                 }
             }
-            source.Products.Add(CreateModel(model, tempProduct));
+            source.Gifts.Add(CreateModel(model, tempGift));
         }
         public void Update(GiftBindingModel model)
         {
-            Gift tempProduct = null;
-            foreach (var product in source.Products)
+            Gift tempGift = null;
+            foreach (var gift in source.Gifts)
             {
-                if (product.Id == model.Id)
+                if (gift.Id == model.Id)
                 {
-                    tempProduct = product;
+                    tempGift = gift;
                 }
             }
-            if (tempProduct == null)
+            if (tempGift == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            CreateModel(model, tempProduct);
+            CreateModel(model, tempGift);
         }
         public void Delete(GiftBindingModel model)
         {
-            for (int i = 0; i < source.Products.Count; ++i)
+            for (int i = 0; i < source.Gifts.Count; ++i)
             {
-                if (source.Products[i].Id == model.Id)
+                if (source.Gifts[i].Id == model.Id)
                 {
-                    source.Products.RemoveAt(i);
+                    source.Gifts.RemoveAt(i);
                     return;
                 }
             }
             throw new Exception("Элемент не найден");
         }
-        private Gift CreateModel(GiftBindingModel model, Gift product)
+        private Gift CreateModel(GiftBindingModel model, Gift gift)
         {
-            product.ProductName = model.ProductName;
-            product.Price = model.Price;
+            gift.GiftName = model.GiftName;
+            gift.Price = model.Price;
             // удаляем убранные
-            foreach (var key in product.ProductComponents.Keys.ToList())
+            foreach (var key in gift.GiftComponents.Keys.ToList())
             {
-                if (!model.ProductComponents.ContainsKey(key))
+                if (!model.GiftComponents.ContainsKey(key))
                 {
-                    product.ProductComponents.Remove(key);
+                    gift.GiftComponents.Remove(key);
                 }
             }
             // обновляем существуюущие и добавляем новые
-            foreach (var component in model.ProductComponents)
+            foreach (var component in model.GiftComponents)
             {
-                if (product.ProductComponents.ContainsKey(component.Key))
+                if (gift.GiftComponents.ContainsKey(component.Key))
                 {
-                    product.ProductComponents[component.Key] = model.ProductComponents[component.Key].Item2;
+                    gift.GiftComponents[component.Key] = model.GiftComponents[component.Key].Item2;
                 }
                 else
                 {
-                    product.ProductComponents.Add(component.Key, model.ProductComponents[component.Key].Item2);
+                    gift.GiftComponents.Add(component.Key, model.GiftComponents[component.Key].Item2);
                 }
             }
-            return product;
+            return gift;
         }
-        private GiftViewModel CreateModel(Gift product)
+        private GiftViewModel CreateModel(Gift gift)
         {
             // требуется дополнительно получить список компонентов для изделия с названиями и их количество
-            Dictionary<int, (string, int)> productComponents = new Dictionary<int, (string, int)>();
-            foreach (var pc in product.ProductComponents)
+            Dictionary<int, (string, int)> giftComponents = new Dictionary<int, (string, int)>();
+            foreach (var pc in gift.GiftComponents)
             {
                 string componentName = string.Empty;
                 foreach (var component in source.Components)
@@ -138,14 +138,14 @@ namespace GiftShopListImplement.Implements
                         break;
                     }
                 }
-                productComponents.Add(pc.Key, (componentName, pc.Value));
+                giftComponents.Add(pc.Key, (componentName, pc.Value));
             }
             return new GiftViewModel
             {
-                Id = product.Id,
-                ProductName = product.ProductName,
-                Price = product.Price,
-                ProductComponents = productComponents
+                Id = gift.Id,
+                GiftName = gift.GiftName,
+                Price = gift.Price,
+                GiftComponents = giftComponents
             };
         }
     }

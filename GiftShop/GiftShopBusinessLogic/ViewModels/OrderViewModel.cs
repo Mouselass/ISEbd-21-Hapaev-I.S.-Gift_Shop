@@ -10,10 +10,10 @@ namespace GiftShopBusinessLogic.ViewModels
     {
         public int Id { get; set; }
 
-        public int ProductId { get; set; }
+        public int GiftId { get; set; }
         [DisplayName("Изделие")]
 
-        public string ProductName { get; set; }
+        public string GiftName { get; set; }
         [DisplayName("Количество")]
 
         public int Count { get; set; }

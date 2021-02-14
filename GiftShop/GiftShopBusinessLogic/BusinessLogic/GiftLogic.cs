@@ -30,7 +30,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
 
         public void CreateOrUpdate(GiftBindingModel model)
         {
-            var element = _giftStorage.GetElement(new GiftBindingModel { ProductName = model.ProductName });
+            var element = _giftStorage.GetElement(new GiftBindingModel { GiftName = model.GiftName });
             if (element != null && element.Id != model.Id)
             {
                 throw new Exception("Уже есть подарок с таким названием");
