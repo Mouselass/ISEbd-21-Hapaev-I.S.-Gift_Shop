@@ -84,16 +84,6 @@ namespace GiftShopFileImplement.Implements
 
         private OrderViewModel CreateModel(Order order)
         {
-            string giftName = null;
-
-            foreach (var gift in source.Gifts)
-            {
-                if (gift.Id == order.GiftId)
-                {
-                    giftName = gift.GiftName;
-                }
-            }
-
             return new OrderViewModel
             {
                 Id = order.Id,
@@ -103,7 +93,7 @@ namespace GiftShopFileImplement.Implements
                 DateImplement = order.DateImplement,
                 Sum = order.Sum,
                 Status = order.Status,
-                GiftName = giftName
+                GiftName = source.Gifts.FirstOrDefault(rec => rec.Id == order.GiftId).GiftName
             };
         }
     }
