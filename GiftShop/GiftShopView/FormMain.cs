@@ -58,6 +58,11 @@ namespace GiftShopView
             var form = Container.Resolve<FormGifts>();
             form.ShowDialog();
         }
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormWarehouses>();
+            form.ShowDialog();
+        }
         private void ButtonCreateOrder_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormCreateOrder>();
@@ -118,6 +123,12 @@ namespace GiftShopView
         private void ButtonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void пополнениеСкладаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormWarehouseFilling>();
+            form.ShowDialog();
         }
     }
 }
