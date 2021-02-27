@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftShopBusinessLogic", "Gi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftShopListImplement", "GiftShopListImplement\GiftShopListImplement.csproj", "{FF590128-D2C8-44B2-91DC-BA0C0EAF0D45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftShopFileImplement", "GiftShopFileImplement\GiftShopFileImplement.csproj", "{DBB24DD3-A6A3-4176-B194-F27439E75C5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftShopFileImplement", "GiftShopFileImplement\GiftShopFileImplement.csproj", "{DBB24DD3-A6A3-4176-B194-F27439E75C5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftShopDatabaseImplement", "GiftShopDatabaseImplement\GiftShopDatabaseImplement.csproj", "{20790FFF-57F0-4D9A-9087-C6280D32CAEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DBB24DD3-A6A3-4176-B194-F27439E75C5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBB24DD3-A6A3-4176-B194-F27439E75C5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBB24DD3-A6A3-4176-B194-F27439E75C5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20790FFF-57F0-4D9A-9087-C6280D32CAEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20790FFF-57F0-4D9A-9087-C6280D32CAEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20790FFF-57F0-4D9A-9087-C6280D32CAEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20790FFF-57F0-4D9A-9087-C6280D32CAEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
