@@ -113,5 +113,74 @@ namespace GiftShopFileImplement.Implements
                      (source.Components.FirstOrDefault(recC => recC.Id == recPC.Key)?.ComponentName, recPC.Value))
             };
         }
+
+        public bool WriteOff(int GiftCount, int GiftId)
+        {
+            var list = GetFullList();
+
+            var DCount = source.Gifts.FirstOrDefault(rec => rec.Id == GiftId).GiftComponents;
+
+            DCount = DCount.ToDictionary(rec => rec.Key, rec => rec.Value * GiftCount);
+
+            Dictionary<int, int> Have = new Dictionary<int, int>();
+
+            foreach (var view in list)
+            {
+                foreach (var d in view.WarehouseComponents)
+                {
+                    int key = d.Key;
+                    if (DCount.ContainsKey(key))
+                    {
+                        if (Have.ContainsKey(key))
+                        {
+                            Have[key] += d.Value.Item2;
+                        }
+                        else
+                        {
+                            Have.Add(key, d.Value.Item2);
+                        }
+                    }
+                }
+            }
+
+            foreach (var key in Have.Keys)
+            {
+                if (DCount[key] > Have[key])
+                {
+                    return false;
+                }
+            }
+
+            foreach (var view in list)
+            {
+                var warehouseComponents = view.WarehouseComponents;
+                foreach (var key in view.WarehouseComponents.Keys.ToArray())
+                {
+                    var value = view.WarehouseComponents[key];
+                    if (DCount.ContainsKey(key))
+                    {
+                        if (value.Item2 > DCount[key])
+                        {
+                            warehouseComponents[key] = (value.Item1, value.Item2 - DCount[key]);
+                            DCount[key] = 0;
+                        }
+                        else
+                        {
+                            warehouseComponents[key] = (value.Item1, 0);
+                            DCount[key] -= value.Item2;
+                        }
+                        Update(new WarehouseBindingModel
+                        {
+                            Id = view.Id,
+                            WarehouseName = view.WarehouseName,
+                            Responsible = view.Responsible,
+                            DateCreate = view.DateCreate,
+                            WarehouseComponents = warehouseComponents
+                        });
+                    }
+                }
+            }
+            return true;
+        }
     }
 }

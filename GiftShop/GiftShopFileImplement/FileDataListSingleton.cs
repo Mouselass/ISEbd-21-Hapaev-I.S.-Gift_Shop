@@ -220,7 +220,7 @@ namespace GiftShopFileImplement
                     var compElement = new XElement("GiftComponents");
                     foreach (var component in gift.GiftComponents)
                     {
-                        compElement.Add(new XElement("ProductComponent",
+                        compElement.Add(new XElement("GiftComponent",
                         new XElement("Key", component.Key),
                         new XElement("Value", component.Value)));
                     }

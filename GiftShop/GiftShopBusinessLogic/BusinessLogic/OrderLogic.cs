@@ -12,9 +12,12 @@ namespace GiftShopBusinessLogic.BusinessLogic
     {
         private readonly IOrderStorage _orderStorage;
 
-        public OrderLogic(IOrderStorage orderStorage)
+        private readonly IWarehouseStorage _warehouseStorage;
+
+        public OrderLogic(IOrderStorage orderStorage, IWarehouseStorage warehouseStorage)
         {
             _orderStorage = orderStorage;
+            _warehouseStorage = warehouseStorage;
         }
 
         public List<OrderViewModel> Read(OrderBindingModel model)
@@ -32,6 +35,10 @@ namespace GiftShopBusinessLogic.BusinessLogic
 
         public void CreateOrder(CreateOrderBindingModel model)
         {
+            if (!_warehouseStorage.WriteOff(model.Count, model.GiftId)) 
+            {
+                throw new Exception("Компонентов не достаточно");
+            }
             _orderStorage.Insert(new OrderBindingModel
             {
                 GiftId = model.GiftId,
