@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using GiftShopBusinessLogic.ViewModels;
 using GiftShopBusinessLogic.BindingModels;
 using GiftShopBusinessLogic.BusinessLogic;
+using GiftShopListImplement.Implements;
+using GiftShopBusinessLogic.Interfaces;
 using Unity;
 
 namespace GiftShopView
@@ -25,57 +27,16 @@ namespace GiftShopView
 
         public string ComponentName { get { return comboBoxComponent.Text; } }
 
-        WarehouseLogic Wlogic;
-        WarehouseLogic _warehouseStorage;
-        //public bool Unrestocking(int PackageCount, int PackageId)
-        //{
-        //    var list = GetFullList();
-
-        //    int Count = source.Packages.FirstOrDefault(rec => rec.Id == PackageId).PackageComponents[PackageId] * PackageCount;
-
-        //    if (list.Sum(rec => rec.WarehouseComponents.Values.Sum(item => item.Item2)) / list.Count() < Count)
-        //    {
-        //        return false;
-        //    }
-
-        //    List<WarehouseBindingModel> models = new List<WarehouseBindingModel>();
-
-        //    foreach (var view in list)
-        //    {
-        //        var warehouseComponents = view.WarehouseComponents;
-        //        foreach (var key in view.WarehouseComponents.Keys.ToArray())
-        //        {
-        //            var value = view.WarehouseComponents[key];
-        //            if (value.Item2 >= Count)
-        //            {
-        //                warehouseComponents[key] = (value.Item1, value.Item2 - Count);
-        //            }
-        //            else
-        //            {
-        //                warehouseComponents[key] = (value.Item1, 0);
-        //                Count -= value.Item2;
-        //            }
-        //            Update(new WarehouseBindingModel
-        //            {
-        //                Id = view.Id,
-        //                DateCreate = view.DateCreate,
-        //                Responsible = view.Responsible,
-        //                WarehouseName = view.WarehouseName,
-        //                WarehouseComponents = warehouseComponents
-        //            });
-        //        }
-        //    }
-        //    return true;
-        //}
-
+        WarehouseStorage _warehouseStorage;
+        
         WarehouseBindingModel warehouseBindingModel = new WarehouseBindingModel();
 
-        public FormWarehouseFilling(ComponentLogic logicC, WarehouseLogic logicW)
+        public FormWarehouseFilling(ComponentLogic logicC, WarehouseStorage warehouseStorage)
         {
             InitializeComponent();
             List<ComponentViewModel> listComponent = logicC.Read(null);
-            List<WarehouseViewModel> listWarehouse = logicW.Read(null);
-            Wlogic = logicW;
+            List<WarehouseViewModel> listWarehouse = warehouseStorage.GetFullList();
+            _warehouseStorage = warehouseStorage;
             if (listComponent != null)
             {
                 comboBoxComponent.DisplayMember = "ComponentName";
@@ -110,7 +71,7 @@ namespace GiftShopView
                 return;
             }
 
-            Wlogic.Filling(new WarehouseBindingModel { Id = WarehouseId}, WarehouseId, ComponentId, Count, ComponentName);
+            _warehouseStorage.Filling(warehouseBindingModel, WarehouseId, ComponentId, Count, ComponentName);
 
             DialogResult = DialogResult.OK;
             Close();
