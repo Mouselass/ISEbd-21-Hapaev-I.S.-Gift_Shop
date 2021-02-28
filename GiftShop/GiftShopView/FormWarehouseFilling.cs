@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using GiftShopBusinessLogic.ViewModels;
 using GiftShopBusinessLogic.BindingModels;
 using GiftShopBusinessLogic.BusinessLogic;
+using GiftShopFileImplement.Implements;
 using Unity;
 
 namespace GiftShopView
@@ -25,16 +26,16 @@ namespace GiftShopView
 
         public string ComponentName { get { return comboBoxComponent.Text; } }
 
-        WarehouseLogic Wlogic;
+        WarehouseStorage _warehouseStorage;
 
         WarehouseBindingModel warehouseBindingModel = new WarehouseBindingModel();
 
-        public FormWarehouseFilling(ComponentLogic logicC, WarehouseLogic logicW)
+        public FormWarehouseFilling(ComponentLogic logicC, WarehouseStorage warehouseStorage)
         {
             InitializeComponent();
             List<ComponentViewModel> listComponent = logicC.Read(null);
-            List<WarehouseViewModel> listWarehouse = logicW.Read(null);
-            Wlogic = logicW;
+            List<WarehouseViewModel> listWarehouse = warehouseStorage.GetFullList();
+            _warehouseStorage = warehouseStorage;
             if (listComponent != null)
             {
                 comboBoxComponent.DisplayMember = "ComponentName";
@@ -69,7 +70,7 @@ namespace GiftShopView
                 return;
             }
 
-            Wlogic.Filling(new WarehouseBindingModel { Id = WarehouseId }, WarehouseId, ComponentId, Count, ComponentName);
+            _warehouseStorage.Filling(warehouseBindingModel, WarehouseId, ComponentId, Count, ComponentName);
 
             DialogResult = DialogResult.OK;
             Close();
