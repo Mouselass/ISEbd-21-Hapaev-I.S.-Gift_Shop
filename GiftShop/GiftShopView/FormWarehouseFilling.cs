@@ -26,6 +26,47 @@ namespace GiftShopView
         public string ComponentName { get { return comboBoxComponent.Text; } }
 
         WarehouseLogic Wlogic;
+        WarehouseLogic _warehouseStorage;
+        //public bool Unrestocking(int PackageCount, int PackageId)
+        //{
+        //    var list = GetFullList();
+
+        //    int Count = source.Packages.FirstOrDefault(rec => rec.Id == PackageId).PackageComponents[PackageId] * PackageCount;
+
+        //    if (list.Sum(rec => rec.WarehouseComponents.Values.Sum(item => item.Item2)) / list.Count() < Count)
+        //    {
+        //        return false;
+        //    }
+
+        //    List<WarehouseBindingModel> models = new List<WarehouseBindingModel>();
+
+        //    foreach (var view in list)
+        //    {
+        //        var warehouseComponents = view.WarehouseComponents;
+        //        foreach (var key in view.WarehouseComponents.Keys.ToArray())
+        //        {
+        //            var value = view.WarehouseComponents[key];
+        //            if (value.Item2 >= Count)
+        //            {
+        //                warehouseComponents[key] = (value.Item1, value.Item2 - Count);
+        //            }
+        //            else
+        //            {
+        //                warehouseComponents[key] = (value.Item1, 0);
+        //                Count -= value.Item2;
+        //            }
+        //            Update(new WarehouseBindingModel
+        //            {
+        //                Id = view.Id,
+        //                DateCreate = view.DateCreate,
+        //                Responsible = view.Responsible,
+        //                WarehouseName = view.WarehouseName,
+        //                WarehouseComponents = warehouseComponents
+        //            });
+        //        }
+        //    }
+        //    return true;
+        //}
 
         WarehouseBindingModel warehouseBindingModel = new WarehouseBindingModel();
 
@@ -71,7 +112,7 @@ namespace GiftShopView
 
             Wlogic.Filling(new WarehouseBindingModel { Id = WarehouseId}, WarehouseId, ComponentId, Count, ComponentName);
 
-             DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
             Close();
         }
 
