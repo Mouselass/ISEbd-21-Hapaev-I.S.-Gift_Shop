@@ -151,14 +151,14 @@ namespace GiftShopFileImplement
             var list = new List<Warehouse>();
             if (File.Exists(WarehouseFileName))
             {
-                XDocument xDocument = XDocument.Load(GiftFileName);
+                XDocument xDocument = XDocument.Load(WarehouseFileName);
                 var xElements = xDocument.Root.Elements("Warehouse").ToList();
                 foreach (var elem in xElements)
                 {
-                    var prodComp = new Dictionary<int, int>();
+                    var warComp = new Dictionary<int, int>();
                     foreach (var component in elem.Element("WarehouseComponents").Elements("WarehouseComponent").ToList())
                     {
-                        prodComp.Add(Convert.ToInt32(component.Element("Key").Value), Convert.ToInt32(component.Element("Value").Value));
+                        warComp.Add(Convert.ToInt32(component.Element("Key").Value), Convert.ToInt32(component.Element("Value").Value));
                     }
                     list.Add(new Warehouse
                     {
@@ -166,7 +166,7 @@ namespace GiftShopFileImplement
                         WarehouseName = elem.Element("WarehouseName").Value,
                         Responsible = elem.Element("Responsible").Value,
                         DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
-                        WarehouseComponents = prodComp
+                        WarehouseComponents = warComp
                     });
                 }
             }
@@ -245,7 +245,7 @@ namespace GiftShopFileImplement
                     var compElement = new XElement("WarehouseComponents");
                     foreach (var component in warehouse.WarehouseComponents)
                     {
-                        compElement.Add(new XElement("ProductComponent",
+                        compElement.Add(new XElement("WarehouseComponent",
                         new XElement("Key", component.Key),
                         new XElement("Value", component.Value)));
                     }

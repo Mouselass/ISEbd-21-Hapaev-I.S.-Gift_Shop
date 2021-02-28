@@ -69,30 +69,7 @@ namespace GiftShopView
                 return;
             }
 
-            WarehouseViewModel view = Wlogic.Read(new WarehouseBindingModel
-            {
-                Id = WarehouseId
-            })?[0];
-
-            if (view != null)
-            {
-                warehouseBindingModel.WarehouseComponents = view.WarehouseComponents;
-                warehouseBindingModel.DateCreate = view.DateCreate;
-                warehouseBindingModel.Id = view.Id;
-                warehouseBindingModel.Responsible = view.Responsible;
-                warehouseBindingModel.WarehouseName = view.WarehouseName;
-            }
-
-            if (warehouseBindingModel.WarehouseComponents.ContainsKey(ComponentId))
-            {
-                int count = warehouseBindingModel.WarehouseComponents[ComponentId].Item2;
-                warehouseBindingModel.WarehouseComponents[ComponentId] = (ComponentName, count + Count);
-            }
-            else
-            {
-                warehouseBindingModel.WarehouseComponents.Add(ComponentId, (ComponentName, Count));
-            }
-            Wlogic.CreateOrUpdate(warehouseBindingModel);
+            Wlogic.Filling(new WarehouseBindingModel { Id = WarehouseId }, WarehouseId, ComponentId, Count, ComponentName);
 
             DialogResult = DialogResult.OK;
             Close();
