@@ -19,7 +19,5 @@ namespace GiftShopBusinessLogic.Interfaces
         void Update(WarehouseBindingModel model);
 
         void Delete(WarehouseBindingModel model);
-
-        void Filling(WarehouseBindingModel warehouseBindingModel, int WarehouseId, int ComponentId, int Count, string ComponentName);
     }
 }
