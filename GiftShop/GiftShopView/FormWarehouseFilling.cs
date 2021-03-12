@@ -24,8 +24,6 @@ namespace GiftShopView
         public string ComponentName { get { return comboBoxComponent.Text; } }
 
         WarehouseLogic _warehouseLogic;
-        
-        WarehouseBindingModel warehouseBindingModel = new WarehouseBindingModel();
 
         public FormWarehouseFilling(ComponentLogic componentLogic, WarehouseLogic warehouseLogic)
         {
