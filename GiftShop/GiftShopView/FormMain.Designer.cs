@@ -33,22 +33,14 @@ namespace GiftShopView
             this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.компонентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.изделияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.складыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.пополнениеСкладаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonCreateOrder = new System.Windows.Forms.Button();
             this.buttonTakeOrderInWork = new System.Windows.Forms.Button();
             this.buttonOrderReady = new System.Windows.Forms.Button();
             this.buttonPayOrder = new System.Windows.Forms.Button();
             this.buttonRef = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataGridViewTextBoxColumnProductid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataGridViewTextBoxColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataGridViewTextBoxColumnCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataGridViewTextBoxColumnSum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataGridViewTextBoxColumnStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataGridViewTextBoxColumnDateCreate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataGridViewTextBoxColumnDateImplement = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.складыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.пополнениеСкладаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -77,16 +69,30 @@ namespace GiftShopView
             // компонентыToolStripMenuItem
             // 
             this.компонентыToolStripMenuItem.Name = "компонентыToolStripMenuItem";
-            this.компонентыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.компонентыToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.компонентыToolStripMenuItem.Text = "Компоненты";
             this.компонентыToolStripMenuItem.Click += new System.EventHandler(this.КомпонентыToolStripMenuItem_Click);
             // 
             // изделияToolStripMenuItem
             // 
             this.изделияToolStripMenuItem.Name = "изделияToolStripMenuItem";
-            this.изделияToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.изделияToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.изделияToolStripMenuItem.Text = "Изделия";
             this.изделияToolStripMenuItem.Click += new System.EventHandler(this.ИзделияToolStripMenuItem_Click);
+            // 
+            // складыToolStripMenuItem
+            // 
+            this.складыToolStripMenuItem.Name = "складыToolStripMenuItem";
+            this.складыToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.складыToolStripMenuItem.Text = "Склады";
+            this.складыToolStripMenuItem.Click += new System.EventHandler(this.складыToolStripMenuItem_Click);
+            // 
+            // пополнениеСкладаToolStripMenuItem
+            // 
+            this.пополнениеСкладаToolStripMenuItem.Name = "пополнениеСкладаToolStripMenuItem";
+            this.пополнениеСкладаToolStripMenuItem.Size = new System.Drawing.Size(134, 20);
+            this.пополнениеСкладаToolStripMenuItem.Text = "Пополнение склада";
+            this.пополнениеСкладаToolStripMenuItem.Click += new System.EventHandler(this.пополнениеСкладаToolStripMenuItem_Click);
             // 
             // buttonCreateOrder
             // 
@@ -142,76 +148,11 @@ namespace GiftShopView
             // 
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.DataGridViewTextBoxColumn,
-            this.DataGridViewTextBoxColumnProductid,
-            this.DataGridViewTextBoxColumnName,
-            this.DataGridViewTextBoxColumnCount,
-            this.DataGridViewTextBoxColumnSum,
-            this.DataGridViewTextBoxColumnStatus,
-            this.DataGridViewTextBoxColumnDateCreate,
-            this.DataGridViewTextBoxColumnDateImplement});
             this.dataGridView.Location = new System.Drawing.Point(0, 28);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowTemplate.Height = 24;
             this.dataGridView.Size = new System.Drawing.Size(633, 321);
             this.dataGridView.TabIndex = 6;
-            // 
-            // DataGridViewTextBoxColumn
-            // 
-            this.DataGridViewTextBoxColumn.HeaderText = "";
-            this.DataGridViewTextBoxColumn.Name = "DataGridViewTextBoxColumn";
-            this.DataGridViewTextBoxColumn.Visible = false;
-            // 
-            // DataGridViewTextBoxColumnProductid
-            // 
-            this.DataGridViewTextBoxColumnProductid.HeaderText = "";
-            this.DataGridViewTextBoxColumnProductid.Name = "DataGridViewTextBoxColumnProductid";
-            this.DataGridViewTextBoxColumnProductid.Visible = false;
-            // 
-            // DataGridViewTextBoxColumnName
-            // 
-            this.DataGridViewTextBoxColumnName.HeaderText = "Изделие";
-            this.DataGridViewTextBoxColumnName.Name = "DataGridViewTextBoxColumnName";
-            // 
-            // DataGridViewTextBoxColumnCount
-            // 
-            this.DataGridViewTextBoxColumnCount.HeaderText = "Количество";
-            this.DataGridViewTextBoxColumnCount.Name = "DataGridViewTextBoxColumnCount";
-            // 
-            // DataGridViewTextBoxColumnSum
-            // 
-            this.DataGridViewTextBoxColumnSum.HeaderText = "Сумма";
-            this.DataGridViewTextBoxColumnSum.Name = "DataGridViewTextBoxColumnSum";
-            // 
-            // DataGridViewTextBoxColumnStatus
-            // 
-            this.DataGridViewTextBoxColumnStatus.HeaderText = "Статус";
-            this.DataGridViewTextBoxColumnStatus.Name = "DataGridViewTextBoxColumnStatus";
-            // 
-            // DataGridViewTextBoxColumnDateCreate
-            // 
-            this.DataGridViewTextBoxColumnDateCreate.HeaderText = "Дата создания";
-            this.DataGridViewTextBoxColumnDateCreate.Name = "DataGridViewTextBoxColumnDateCreate";
-            // 
-            // DataGridViewTextBoxColumnDateImplement
-            // 
-            this.DataGridViewTextBoxColumnDateImplement.HeaderText = "Дата выполнения";
-            this.DataGridViewTextBoxColumnDateImplement.Name = "DataGridViewTextBoxColumnDateImplement";
-            // 
-            // складыToolStripMenuItem
-            // 
-            this.складыToolStripMenuItem.Name = "складыToolStripMenuItem";
-            this.складыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.складыToolStripMenuItem.Text = "Склады";
-            this.складыToolStripMenuItem.Click += new System.EventHandler(this.складыToolStripMenuItem_Click);
-            // 
-            // пополнениеСкладаToolStripMenuItem
-            // 
-            this.пополнениеСкладаToolStripMenuItem.Name = "пополнениеСкладаToolStripMenuItem";
-            this.пополнениеСкладаToolStripMenuItem.Size = new System.Drawing.Size(134, 20);
-            this.пополнениеСкладаToolStripMenuItem.Text = "Пополнение склада";
-            this.пополнениеСкладаToolStripMenuItem.Click += new System.EventHandler(this.пополнениеСкладаToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -249,14 +190,6 @@ namespace GiftShopView
         private System.Windows.Forms.Button buttonPayOrder;
         private System.Windows.Forms.Button buttonRef;
         private System.Windows.Forms.DataGridView dataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumnProductid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumnName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumnCount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumnSum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumnStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumnDateCreate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumnDateImplement;
         private System.Windows.Forms.ToolStripMenuItem складыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem пополнениеСкладаToolStripMenuItem;
     }
