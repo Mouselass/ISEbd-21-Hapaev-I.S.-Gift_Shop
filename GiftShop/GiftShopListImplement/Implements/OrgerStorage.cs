@@ -34,6 +34,19 @@ namespace GiftShopListImplement.Implements
                 return null;
             }
             List<OrderViewModel> result = new List<OrderViewModel>();
+
+            if (model.DateTo != null && model.DateFrom != null)
+            {
+                foreach (var order in source.Orders)
+                {
+                    if (order.DateCreate >= model.DateTo && order.DateImplement <= model.DateFrom)
+                    {
+                        result.Add(CreateModel(order));
+                    }
+                }
+                return result;
+            }
+
             foreach (var component in source.Orders)
             {
                 if (component.GiftId.ToString().Contains(model.GiftId.ToString()))
