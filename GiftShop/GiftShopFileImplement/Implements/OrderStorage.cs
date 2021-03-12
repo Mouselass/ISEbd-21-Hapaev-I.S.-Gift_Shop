@@ -93,7 +93,7 @@ namespace GiftShopFileImplement.Implements
                 DateImplement = order.DateImplement,
                 Sum = order.Sum,
                 Status = order.Status,
-                GiftName = source.Gifts.FirstOrDefault(rec => rec.Id == order.GiftId).GiftName
+                GiftName = source.Gifts.FirstOrDefault(rec => rec.Id == order.GiftId)?.GiftName
             };
         }
     }
