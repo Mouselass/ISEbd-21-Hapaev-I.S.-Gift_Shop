@@ -46,12 +46,12 @@ namespace GiftShopBusinessLogic.BusinessLogic
 
                 if (info.Gifts != null) 
                 {
-                    foreach (var canned in info.Gifts)
+                    foreach (var gift in info.Gifts)
                     {
                         docBody.AppendChild(CreateParagraph(new WordParagraph
                         {
                             Texts = new List<(string, WordTextProperties)> {
-                                ("Название: " + canned.GiftName, new WordTextProperties {Bold = true, Size = "24", }) },
+                                (gift.GiftName, new WordTextProperties {Bold = true, Size = "24", }) },
                             TextProperties = new WordTextProperties
                             {
                                 Size = "24",
@@ -61,7 +61,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
                         docBody.AppendChild(CreateParagraph(new WordParagraph
                         {
                             Texts = new List<(string, WordTextProperties)> {
-                                ("Цена: " + canned.Price.ToString(), new WordTextProperties {Bold = false, Size = "24", }) },
+                                ("Цена: " + gift.Price.ToString(), new WordTextProperties {Bold = false, Size = "24", }) },
                             TextProperties = new WordTextProperties
                             {
                                 Size = "24",

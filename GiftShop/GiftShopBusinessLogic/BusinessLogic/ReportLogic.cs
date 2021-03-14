@@ -124,7 +124,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
             {
                 FileName = model.FileName,
                 Title = "Список изделий",
-                GiftComponents = GetComponentsGift()
+                ComponentGifts = GetComponentsGift()
             });
         }
 
