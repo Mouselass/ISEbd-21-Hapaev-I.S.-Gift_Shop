@@ -19,7 +19,7 @@ namespace GiftShopDatabaseImplement.Implements
                 {
                     Id = rec.Id,
                     GiftId = rec.GiftId,
-                    GiftName = context.Gifts.FirstOrDefault(x => x.Id == rec.GiftId).GiftName,
+                    GiftName = context.Gifts.Include(x => x.Order).FirstOrDefault(x => x.Id == rec.GiftId).GiftName,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status = rec.Status,
@@ -42,7 +42,7 @@ namespace GiftShopDatabaseImplement.Implements
                 {
                     Id = rec.Id,
                     GiftId = rec.GiftId,
-                    GiftName = context.Gifts.FirstOrDefault(x => x.Id == rec.GiftId).GiftName,
+                    GiftName = context.Gifts.Include(x => x.Order).FirstOrDefault(x => x.Id == rec.GiftId).GiftName,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status = rec.Status,
@@ -68,7 +68,7 @@ namespace GiftShopDatabaseImplement.Implements
                 {
                     Id = order.Id,
                     GiftId = order.GiftId,
-                    GiftName = context.Gifts.FirstOrDefault(x => x.Id == order.GiftId).GiftName,
+                    GiftName = context.Gifts.Include(x => x.Order).FirstOrDefault(x => x.Id == order.GiftId)?.GiftName,
                     Count = order.Count,
                     Sum = order.Sum,
                     Status = order.Status,
