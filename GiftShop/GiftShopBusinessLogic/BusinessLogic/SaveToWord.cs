@@ -27,51 +27,23 @@ namespace GiftShopBusinessLogic.BusinessLogic
                     }
                 }));
 
-                if (info.Components != null) 
+                foreach (var gift in info.Gifts)
                 {
-                    foreach (var component in info.Components)
+                    docBody.AppendChild(CreateParagraph(new WordParagraph
                     {
-                        docBody.AppendChild(CreateParagraph(new WordParagraph
+                        Texts = new List<(string, WordTextProperties)> {
+                                (gift.GiftName, new WordTextProperties {Bold = true, Size = "24", }),
+                                (" Цена: " + gift.Price.ToString(), new WordTextProperties {Bold = false, Size = "24", })},
+                        TextProperties = new WordTextProperties
                         {
-                            Texts = new List<(string, WordTextProperties)> { (component.ComponentName, new WordTextProperties { Size = "24", }) },
-                            TextProperties = new WordTextProperties
-                            {
-                                Size = "24",
-                                JustificationValues = JustificationValues.Both
-                            }
-                        }));
-                    }
-                    docBody.AppendChild(CreateSectionProperties());
-                }
+                            Size = "24",
+                            JustificationValues = JustificationValues.Both
+                        }
+                    })); ;
 
-                if (info.Gifts != null) 
-                {
-                    foreach (var gift in info.Gifts)
-                    {
-                        docBody.AppendChild(CreateParagraph(new WordParagraph
-                        {
-                            Texts = new List<(string, WordTextProperties)> {
-                                (gift.GiftName, new WordTextProperties {Bold = true, Size = "24", }) },
-                            TextProperties = new WordTextProperties
-                            {
-                                Size = "24",
-                                JustificationValues = JustificationValues.Both
-                            }
-                        })); ;
-                        docBody.AppendChild(CreateParagraph(new WordParagraph
-                        {
-                            Texts = new List<(string, WordTextProperties)> {
-                                ("Цена: " + gift.Price.ToString(), new WordTextProperties {Bold = false, Size = "24", }) },
-                            TextProperties = new WordTextProperties
-                            {
-                                Size = "24",
-                                JustificationValues = JustificationValues.Both
-                            }
-                        })); ;
-                    }
-                    docBody.AppendChild(CreateSectionProperties());
                 }
-                
+                docBody.AppendChild(CreateSectionProperties());
+
                 wordDocument.MainDocumentPart.Document.Save();
             }
         }

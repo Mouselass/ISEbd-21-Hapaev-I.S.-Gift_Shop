@@ -56,93 +56,31 @@ namespace GiftShopBusinessLogic.BusinessLogic
                     CellToName = "C1"
                 });
                 uint rowIndex = 2;
-                if (info.GiftComponents != null)
+
+                foreach (var pc in info.ComponentGifts)
                 {
-                    foreach (var pc in info.GiftComponents)
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        Worksheet = worksheetPart.Worksheet,
+                        ShareStringPart = shareStringPart,
+                        ColumnName = "A",
+                        RowIndex = rowIndex,
+                        Text = pc.GiftName,
+                        StyleIndex = 0U
+                    });
+                    rowIndex++;
+
+                    foreach (var component in pc.Components)
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
                             Worksheet = worksheetPart.Worksheet,
                             ShareStringPart = shareStringPart,
-                            ColumnName = "A",
+                            ColumnName = "B",
                             RowIndex = rowIndex,
-                            Text = pc.ComponentName,
-                            StyleIndex = 0U
+                            Text = component.Item1,
+                            StyleIndex = 1U
                         });
-                        rowIndex++;
-                        foreach (var gift in pc.Gifts)
-                        {
-                            InsertCellInWorksheet(new ExcelCellParameters
-                            {
-                                Worksheet = worksheetPart.Worksheet,
-                                ShareStringPart = shareStringPart,
-                                ColumnName = "B",
-                                RowIndex = rowIndex,
-                                Text = gift.Item1,
-                                StyleIndex = 1U
-                            });
-                            InsertCellInWorksheet(new ExcelCellParameters
-                            {
-                                Worksheet = worksheetPart.Worksheet,
-                                ShareStringPart = shareStringPart,
-                                ColumnName = "C",
-                                RowIndex = rowIndex,
-                                Text = gift.Item2.ToString(),
-                                StyleIndex = 1U
-                            }); rowIndex++;
-                        }
-                        InsertCellInWorksheet(new ExcelCellParameters
-                        {
-                            Worksheet = worksheetPart.Worksheet,
-                            ShareStringPart = shareStringPart,
-                            ColumnName = "C",
-                            RowIndex = rowIndex,
-                            Text = pc.TotalCount.ToString(),
-                            StyleIndex = 0U
-                        });
-                        rowIndex++;
-                    }
-                    workbookpart.Workbook.Save();
-                }
-                if (info.ComponentGifts != null)
-                {
-                    foreach (var pc in info.ComponentGifts)
-                    {
-                        InsertCellInWorksheet(new ExcelCellParameters
-                        {
-                            Worksheet = worksheetPart.Worksheet,
-                            ShareStringPart = shareStringPart,
-                            ColumnName = "A",
-                            RowIndex = rowIndex,
-                            Text = pc.GiftName,
-                            StyleIndex = 0U
-                        });
-                        rowIndex++;
-
-                        foreach (var component in pc.Components)
-                        {
-                            InsertCellInWorksheet(new ExcelCellParameters
-                            {
-                                Worksheet = worksheetPart.Worksheet,
-                                ShareStringPart = shareStringPart,
-                                ColumnName = "B",
-                                RowIndex = rowIndex,
-                                Text = component.Item1,
-                                StyleIndex = 1U
-                            });
-
-                            InsertCellInWorksheet(new ExcelCellParameters
-                            {
-                                Worksheet = worksheetPart.Worksheet,
-                                ShareStringPart = shareStringPart,
-                                ColumnName = "C",
-                                RowIndex = rowIndex,
-                                Text = component.Item2.ToString(),
-                                StyleIndex = 1U
-                            });
-
-                            rowIndex++;
-                        }
 
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -150,14 +88,26 @@ namespace GiftShopBusinessLogic.BusinessLogic
                             ShareStringPart = shareStringPart,
                             ColumnName = "C",
                             RowIndex = rowIndex,
-                            Text = pc.TotalCount.ToString(),
-                            StyleIndex = 0U
+                            Text = component.Item2.ToString(),
+                            StyleIndex = 1U
                         });
+
                         rowIndex++;
                     }
-                    workbookpart.Workbook.Save();
+
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        Worksheet = worksheetPart.Worksheet,
+                        ShareStringPart = shareStringPart,
+                        ColumnName = "C",
+                        RowIndex = rowIndex,
+                        Text = pc.TotalCount.ToString(),
+                        StyleIndex = 0U
+                    });
+                    rowIndex++;
                 }
-                
+                workbookpart.Workbook.Save();
+
             }
         }
 

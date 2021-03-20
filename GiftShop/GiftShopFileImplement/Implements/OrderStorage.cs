@@ -31,7 +31,7 @@ namespace GiftShopFileImplement.Implements
 
             if (model.DateFrom != null && model.DateTo != null) 
             {
-                return source.Orders.Where(rec => rec.DateCreate >= model.DateFrom && rec.DateImplement <= model.DateTo).Select(CreateModel).ToList();
+                return source.Orders.Where(rec => rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo).Select(CreateModel).ToList();
             }
 
             return source.Orders.Where(rec => rec.GiftId.ToString().Contains(model.GiftId.ToString())).Select(CreateModel).ToList();

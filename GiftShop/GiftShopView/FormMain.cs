@@ -120,18 +120,6 @@ namespace GiftShopView
             LoadData();
         }
 
-        private void списокКомпонентовToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
-            {
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    _reportLogic.SaveComponentsToWordFile(new ReportBindingModel { FileName = dialog.FileName });
-                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-        }
-
         private void списокИзделийToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
@@ -142,12 +130,6 @@ namespace GiftShopView
                     MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-        }
-
-        private void компонентыПоИзделиямToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Container.Resolve<FormReportGiftComponents>();
-            form.ShowDialog();
         }
 
         private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
@@ -161,7 +143,5 @@ namespace GiftShopView
             var form = Container.Resolve<FormReportComponentGifts>();
             form.ShowDialog();
         }
-
-        
     }
 }

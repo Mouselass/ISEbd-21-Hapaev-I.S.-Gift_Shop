@@ -5,6 +5,7 @@ using GiftShopBusinessLogic.BindingModels;
 using GiftShopBusinessLogic.HelperModels;
 using GiftShopBusinessLogic.Interfaces;
 using GiftShopBusinessLogic.ViewModels;
+using GiftShopBusinessLogic.Enums;
 
 namespace GiftShopBusinessLogic.BusinessLogic
 {
@@ -19,32 +20,6 @@ namespace GiftShopBusinessLogic.BusinessLogic
             _giftStorage = giftStorage;
             _componentStorage = componentStorage;
             _orderStorage = orderStorage;
-        }
-
-        public List<ReportGiftComponentViewModel> GetGiftComponent()
-        {
-            var components = _componentStorage.GetFullList();
-            var gifts = _giftStorage.GetFullList();
-            var list = new List<ReportGiftComponentViewModel>();
-            foreach (var component in components)
-            {
-                var record = new ReportGiftComponentViewModel
-                {
-                    ComponentName = component.ComponentName,
-                    Gifts = new List<Tuple<string, int>>(),
-                    TotalCount = 0
-                };
-                foreach (var gift in gifts)
-                {
-                    if (gift.GiftComponents.ContainsKey(component.Id))
-                    {
-                        record.Gifts.Add(new Tuple<string, int>(gift.GiftName, gift.GiftComponents[component.Id].Item2));
-                        record.TotalCount += gift.GiftComponents[component.Id].Item2;
-                    }
-                }
-                list.Add(record);
-            }
-            return list;
         }
 
         public List<ReportGiftComponentViewModel> GetComponentsGift()
@@ -83,19 +58,9 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 GiftName = x.GiftName,
                 Count = x.Count,
                 Sum = x.Sum,
-                Status = x.Status
+                Status = ((OrderStatus)Enum.Parse(typeof(OrderStatus), x.Status.ToString())).ToString()
             })
             .ToList();
-        }
-
-        public void SaveComponentsToWordFile(ReportBindingModel model)
-        {
-            SaveToWord.CreateDoc(new WordInfo
-            {
-                FileName = model.FileName,
-                Title = "Список компонент",
-                Components = _componentStorage.GetFullList()
-            });
         }
 
         public void SaveGiftsToWordFile(ReportBindingModel model)
@@ -105,16 +70,6 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 FileName = model.FileName,
                 Title = "Список изделий",
                 Gifts = _giftStorage.GetFullList()
-            });
-        }
-
-        public void SaveGiftComponentToExcelFile(ReportBindingModel model)
-        {
-            SaveToExcel.CreateDoc(new ExcelInfo
-            {
-                FileName = model.FileName,
-                Title = "Список компонент",
-                GiftComponents = GetGiftComponent()
             });
         }
 
