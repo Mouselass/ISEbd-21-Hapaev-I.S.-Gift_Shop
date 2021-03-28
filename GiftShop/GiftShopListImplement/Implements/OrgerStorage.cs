@@ -118,6 +118,7 @@ namespace GiftShopListImplement.Implements
 
         private Order CreateModel(OrderBindingModel model, Order order)
         {
+            order.ClientId = (int)model.ClientId;
             order.GiftId = model.GiftId;
             order.Count = model.Count;
             order.Sum = model.Sum;
@@ -139,16 +140,28 @@ namespace GiftShopListImplement.Implements
                 }
             }
 
+            string clientFio = null;
+
+            foreach (var client in source.Clients)
+            {
+                if (client.Id == order.GiftId)
+                {
+                    clientFio = client.ClientFIO;
+                }
+            }
+
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 GiftId = order.GiftId,
                 Count = order.Count,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Sum = order.Sum,
                 Status = order.Status,
-                GiftName = giftName
+                GiftName = giftName,
+                ClientFIO = clientFio
             };
         }
     }
