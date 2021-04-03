@@ -192,5 +192,6 @@ namespace GiftShopView
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.ToolStripMenuItem складыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem пополнениеСкладаToolStripMenuItem;
+
     }
 }
