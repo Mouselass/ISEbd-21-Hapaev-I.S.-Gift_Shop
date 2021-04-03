@@ -26,16 +26,14 @@ namespace GiftShopView
 
         public string ComponentName { get { return comboBoxComponent.Text; } }
 
-        WarehouseStorage _warehouseStorage;
+        private readonly WarehouseLogic _warehouseLogic;
 
-        WarehouseBindingModel warehouseBindingModel = new WarehouseBindingModel();
-
-        public FormWarehouseFilling(ComponentLogic logicC, WarehouseStorage warehouseStorage)
+        public FormWarehouseFilling(ComponentLogic logicC, WarehouseLogic logicW)
         {
             InitializeComponent();
             List<ComponentViewModel> listComponent = logicC.Read(null);
-            List<WarehouseViewModel> listWarehouse = warehouseStorage.GetFullList();
-            _warehouseStorage = warehouseStorage;
+            List<WarehouseViewModel> listWarehouse = logicW.Read(null);
+            _warehouseLogic = logicW;
             if (listComponent != null)
             {
                 comboBoxComponent.DisplayMember = "ComponentName";
@@ -70,7 +68,7 @@ namespace GiftShopView
                 return;
             }
 
-            _warehouseStorage.Filling(warehouseBindingModel, WarehouseId, ComponentId, Count, ComponentName);
+            _warehouseLogic.Filling(new WarehouseBindingModel { }, WarehouseId, ComponentId, Count, ComponentName);
 
             DialogResult = DialogResult.OK;
             Close();

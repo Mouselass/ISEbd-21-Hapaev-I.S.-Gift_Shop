@@ -35,10 +35,6 @@ namespace GiftShopBusinessLogic.BusinessLogic
 
         public void CreateOrder(CreateOrderBindingModel model)
         {
-            if (!_warehouseStorage.WriteOff(model.Count, model.GiftId)) 
-            {
-                throw new Exception("Компонентов не достаточно");
-            }
             _orderStorage.Insert(new OrderBindingModel
             {
                 GiftId = model.GiftId,
@@ -59,6 +55,10 @@ namespace GiftShopBusinessLogic.BusinessLogic
             if (order.Status != OrderStatus.Принят)
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
+            }
+            if (!_warehouseStorage.WriteOff(order.Count, order.GiftId))
+            {
+                throw new Exception("Компонентов не достаточно");
             }
             _orderStorage.Update(new OrderBindingModel
             {

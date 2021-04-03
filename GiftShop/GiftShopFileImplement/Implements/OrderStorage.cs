@@ -84,17 +84,17 @@ namespace GiftShopFileImplement.Implements
 
         private OrderViewModel CreateModel(Order order)
         {
-                return new OrderViewModel
-                {
-                    Id = order.Id,
-                    GiftId = order.GiftId,
-                    Count = order.Count,
-                    DateCreate = order.DateCreate,
-                    DateImplement = order.DateImplement,
-                    Sum = order.Sum,
-                    Status = order.Status,
-                    GiftName = source.Gifts.FirstOrDefault(rec => rec.Id == order.GiftId).GiftName
-                };
+            return new OrderViewModel
+            {
+                Id = order.Id,
+                GiftId = order.GiftId,
+                Count = order.Count,
+                DateCreate = order.DateCreate,
+                DateImplement = order.DateImplement,
+                Sum = order.Sum,
+                Status = order.Status,
+                GiftName = source.Gifts.FirstOrDefault(rec => rec.Id == order.GiftId)?.GiftName
+            };
         }
     }
 }
