@@ -107,7 +107,7 @@ namespace GiftShopView
             // 
             // reportViewer
             // 
-            this.reportViewer.LocalReport.ReportEmbeddedResource = "GiftShopView.Report.rdlc";
+            this.reportViewer.LocalReport.ReportEmbeddedResource = "GiftShopView.ReportOrders.rdlc";
             this.reportViewer.Location = new System.Drawing.Point(1, 47);
             this.reportViewer.Name = "reportViewer";
             this.reportViewer.ServerReport.BearerToken = null;
@@ -123,6 +123,7 @@ namespace GiftShopView
             this.Controls.Add(this.panel);
             this.Name = "FormReportOrders";
             this.Text = "Заказы клиентов";
+            this.Load += new System.EventHandler(this.FormReportOrders_Load);
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();
             this.ResumeLayout(false);

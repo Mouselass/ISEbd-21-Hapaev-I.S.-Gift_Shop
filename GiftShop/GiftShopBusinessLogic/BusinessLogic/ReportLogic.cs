@@ -15,10 +15,13 @@ namespace GiftShopBusinessLogic.BusinessLogic
 
         private readonly IOrderStorage _orderStorage;
 
-        public ReportLogic(IGiftStorage giftStorage, IOrderStorage orderStorage)
+        private readonly IWarehouseStorage _warehouseStorage;
+
+        public ReportLogic(IGiftStorage giftStorage, IOrderStorage orderStorage, IWarehouseStorage warehouseStorage)
         {
             _giftStorage = giftStorage;
             _orderStorage = orderStorage;
+            _warehouseStorage = warehouseStorage;
         }
 
         public List<ReportGiftComponentViewModel> GetComponentsGift()
@@ -58,6 +61,41 @@ namespace GiftShopBusinessLogic.BusinessLogic
             .ToList();
         }
 
+        public List<ReportWarehouseComponentViewModel> GetWarehouseComponents()
+        {
+            var warehouses = _warehouseStorage.GetFullList();
+            var records = new List<ReportWarehouseComponentViewModel>();
+            foreach (var warehouse in warehouses)
+            {
+                var record = new ReportWarehouseComponentViewModel
+                {
+                    WarehouseName = warehouse.WarehouseName,
+                    Components = new List<Tuple<string, int>>(),
+                    TotalCount = 0
+                };
+                foreach (var component in warehouse.WarehouseComponents)
+                {
+                    record.Components.Add(new Tuple<string, int>(component.Value.Item1, component.Value.Item2));
+                    record.TotalCount += component.Value.Item2;
+                }
+                records.Add(record);
+            }
+            return records;
+        }
+
+        public List<ReportOrdersAllDatesViewModel> GetOrdersForAllDates()
+        {
+            return _orderStorage.GetFullList()
+                .GroupBy(order => order.DateCreate.ToShortDateString())
+                .Select(rec => new ReportOrdersAllDatesViewModel
+                {
+                    Date = Convert.ToDateTime(rec.Key),
+                    Count = rec.Count(),
+                    Sum = rec.Sum(order => order.Sum)
+                })
+                .ToList();
+        }
+
         public void SaveGiftsToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
@@ -87,6 +125,36 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 DateFrom = model.DateFrom.Value,
                 DateTo = model.DateTo.Value,
                 Orders = GetOrders(model)
+            });
+        }
+
+        public void SaveWarehousesToWordFile(ReportBindingModel model)
+        {
+            SaveToWord.CreateDocStoreHouse(new WordInfoWarehouse
+            {
+                FileName = model.FileName,
+                Title = "Список складов",
+                Warehouses = _warehouseStorage.GetFullList()
+            });
+        }
+
+        public void SaveWarehouseComponentsToExcelFile(ReportBindingModel model)
+        {
+            SaveToExcel.CreateDocWarehouse(new ExcelInfoWarehouse
+            {
+                FileName = model.FileName,
+                Title = "Список складов",
+                WarehouseComponents = GetWarehouseComponents()
+            });
+        }
+
+        public void SaveOrdersAllDatesToPdfFile(ReportBindingModel model)
+        {
+            SaveToPdf.CreateDocOrdersAllDates(new PdfInfoOrdersAllDates
+            {
+                FileName = model.FileName,
+                Title = "Список заказов",
+                Orders = GetOrdersForAllDates()
             });
         }
     }

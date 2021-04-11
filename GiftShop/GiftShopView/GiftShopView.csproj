@@ -256,6 +256,18 @@
     <Compile Include="FormReportOrders.Designer.cs">
       <DependentUpon>FormReportOrders.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormReportOrdersAllDates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReportOrdersAllDates.Designer.cs">
+      <DependentUpon>FormReportOrdersAllDates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportWarehouseComponents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReportWarehouseComponents.Designer.cs">
+      <DependentUpon>FormReportWarehouseComponents.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormWarehouse.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -307,6 +319,12 @@
     <EmbeddedResource Include="FormReportOrders.resx">
       <DependentUpon>FormReportOrders.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormReportOrdersAllDates.resx">
+      <DependentUpon>FormReportOrdersAllDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReportWarehouseComponents.resx">
+      <DependentUpon>FormReportWarehouseComponents.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormWarehouse.resx">
       <DependentUpon>FormWarehouse.cs</DependentUpon>
     </EmbeddedResource>
@@ -328,8 +346,10 @@
     <EmbeddedResource Include="FormComponent.resx">
       <DependentUpon>FormComponent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Report.rdlc" />
+    <EmbeddedResource Include="ReportOrders.rdlc" />
+    <EmbeddedResource Include="ReportOrdersAllDate.rdlc" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\GiftShopBusinessLogic.ViewModels.ReportOrdersAllDatesViewModel.datasource" />
     <None Include="Properties\DataSources\GiftShopBusinessLogic.ViewModels.ReportOrdersViewModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
