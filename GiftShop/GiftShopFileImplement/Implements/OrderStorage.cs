@@ -28,7 +28,8 @@ namespace GiftShopFileImplement.Implements
             {
                 return null;
             }
-            return source.Orders.Where(rec => rec.GiftId.ToString().Contains(model.GiftId.ToString())).Select(CreateModel).ToList();
+
+            return source.Orders.Where((rec => rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)).Select(CreateModel).ToList();
         }
 
         public OrderViewModel GetElement(OrderBindingModel model)

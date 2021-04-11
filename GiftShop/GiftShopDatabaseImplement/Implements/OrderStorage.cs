@@ -35,10 +35,13 @@ namespace GiftShopDatabaseImplement.Implements
             {
                 return null;
             }
+
             using (var context = new GiftShopDatabase())
             {
                 return context.Orders.Include(rec => rec.Gift)
-                .Where(rec => rec.Id.Equals(model.Id)).Select(rec => new OrderViewModel
+                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate == model.DateCreate) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date))
+                .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     GiftId = rec.GiftId,
@@ -47,7 +50,7 @@ namespace GiftShopDatabaseImplement.Implements
                     Sum = rec.Sum,
                     Status = rec.Status,
                     DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement
+                    DateImplement = rec.DateImplement,
                 })
                 .ToList();
             }
