@@ -6,17 +6,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GiftShopDatabaseImplement.Models
 {
-    public class Component
+    public class Warehouse
     {
         public int Id { get; set; }
 
         [Required]
-        public string ComponentName { get; set; }
+        public string WarehouseName { get; set; }
 
-        [ForeignKey("ComponentId")]
-        public virtual List<GiftComponent> GiftComponents { get; set; }
+        [Required]
+        public string Responsible { get; set; }
 
-        [ForeignKey("ComponentId")]
+        [Required]
+        public DateTime DateCreate { get; set; }
+
+        [ForeignKey("WarehouseId")]
         public virtual List<WarehouseComponent> WarehouseComponents { get; set; }
     }
 }

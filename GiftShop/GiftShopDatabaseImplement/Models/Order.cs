@@ -12,6 +12,8 @@ namespace GiftShopDatabaseImplement.Models
 
         public int GiftId { get; set; }
 
+        public virtual Gift Gift { get; set; }
+
         [Required]
         public int Count { get; set; }
 

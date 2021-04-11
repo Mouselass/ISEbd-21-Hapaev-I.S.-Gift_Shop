@@ -161,5 +161,10 @@ namespace GiftShopListImplement.Implements
                 WarehouseComponents = warehouseComponents
             };
         }
+
+        public bool WriteOff(int PackageId, int Count)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

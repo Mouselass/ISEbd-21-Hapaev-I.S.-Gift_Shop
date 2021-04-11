@@ -20,5 +20,7 @@ namespace GiftShopDatabaseImplement
         public virtual DbSet<Gift> Gifts { set; get; }
         public virtual DbSet<GiftComponent> GiftComponents { set; get; }
         public virtual DbSet<Order> Orders { set; get; }
+        public virtual DbSet<Warehouse> Warehouses { set; get; }
+        public virtual DbSet<WarehouseComponent> WarehouseComponents { set; get; }
     }
 }
