@@ -128,7 +128,7 @@ namespace GiftShopDatabaseImplement.Migrations
 
             modelBuilder.Entity("GiftShopDatabaseImplement.Models.Order", b =>
                 {
-                    b.HasOne("GiftShopDatabaseImplement.Models.Gift", null)
+                    b.HasOne("GiftShopDatabaseImplement.Models.Gift", "Gift")
                         .WithMany("Order")
                         .HasForeignKey("GiftId")
                         .OnDelete(DeleteBehavior.Cascade)
