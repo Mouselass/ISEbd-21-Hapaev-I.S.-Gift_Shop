@@ -4,6 +4,7 @@ using System.Linq;
 using GiftShopBusinessLogic.BindingModels;
 using GiftShopBusinessLogic.Interfaces;
 using GiftShopBusinessLogic.ViewModels;
+using GiftShopBusinessLogic.Enums;
 using GiftShopDatabaseImplement.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,13 +16,16 @@ namespace GiftShopDatabaseImplement.Implements
         {
             using (var context = new GiftShopDatabase())
             {
-                return context.Orders.Select(rec => new OrderViewModel
+                return context.Orders.Include(rec => rec.Gift).Include(rec => rec.Client)
+                    .Include(rec => rec.Implementer).Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     ClientId = rec.ClientId,
-                    ClientFIO = context.Clients.Include(x => x.Order).FirstOrDefault(x => x.Id == rec.ClientId).ClientFIO,
+                    ClientFIO = rec.Client.ClientFIO,
+                    ImplementerId = rec.ImplementerId,
+                    ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.ImplementerFIO : string.Empty,
                     GiftId = rec.GiftId,
-                    GiftName = context.Gifts.Include(x => x.Order).FirstOrDefault(x => x.Id == rec.GiftId).GiftName,
+                    GiftName = rec.Gift.GiftName,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status = rec.Status,
@@ -41,15 +45,27 @@ namespace GiftShopDatabaseImplement.Implements
             using (var context = new GiftShopDatabase())
             {
                 return context.Orders
-                .Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) || (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate == model.DateCreate) ||
-                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date))
+                    .Include(rec => rec.Gift)
+                    .Include(rec => rec.Client)
+                    .Include(rec => rec.Implementer)
+                    .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue &&
+                    rec.DateCreate.Date == model.DateCreate.Date) ||
+                    (model.DateFrom.HasValue && model.DateTo.HasValue &&
+                    rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <=
+                    model.DateTo.Value.Date) ||
+                    (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
+                    (model.FreeOrders.HasValue && model.FreeOrders.Value && rec.Status == OrderStatus.Принят) ||
+                    (model.ImplementerId.HasValue && rec.ImplementerId ==
+                    model.ImplementerId && rec.Status == OrderStatus.Выполняется))
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     ClientId = rec.ClientId,
-                    ClientFIO = context.Clients.Include(x => x.Order).FirstOrDefault(x => x.Id == rec.ClientId).ClientFIO,
+                    ClientFIO = rec.Client.ClientFIO,
+                    ImplementerId = rec.ImplementerId,
+                    ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.ImplementerFIO : string.Empty,
                     GiftId = rec.GiftId,
-                    GiftName = context.Gifts.Include(x => x.Order).FirstOrDefault(x => x.Id == rec.GiftId).GiftName,
+                    GiftName = rec.Gift.GiftName,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status = rec.Status,
@@ -69,16 +85,18 @@ namespace GiftShopDatabaseImplement.Implements
             }
             using (var context = new GiftShopDatabase())
             {
-                var order = context.Orders
+                var order = context.Orders.Include(rec => rec.Gift).Include(rec => rec.Client).Include(rec => rec.Implementer)
                 .FirstOrDefault(rec => rec.Id == model.Id);
                 return order != null ?
                 new OrderViewModel
                 {
                     Id = order.Id,
                     ClientId = order.ClientId,
-                    ClientFIO = context.Clients.Include(x => x.Order).FirstOrDefault(x => x.Id == order.ClientId).ClientFIO,
+                    ClientFIO = order.Client.ClientFIO,
+                    ImplementerId = order.ImplementerId,
+                    ImplementerFIO = order.ImplementerId.HasValue ? order.Implementer.ImplementerFIO : string.Empty,
                     GiftId = order.GiftId,
-                    GiftName = context.Gifts.Include(x => x.Order).FirstOrDefault(x => x.Id == order.GiftId)?.GiftName,
+                    GiftName = order.Gift.GiftName,
                     Count = order.Count,
                     Sum = order.Sum,
                     Status = order.Status,
@@ -137,7 +155,8 @@ namespace GiftShopDatabaseImplement.Implements
             order.Status = model.Status;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
-            order.ClientId = (int)model.ClientId;
+            order.ClientId = model.ClientId.Value;
+            order.ImplementerId = model.ImplementerId;
             return order;
         }
     }

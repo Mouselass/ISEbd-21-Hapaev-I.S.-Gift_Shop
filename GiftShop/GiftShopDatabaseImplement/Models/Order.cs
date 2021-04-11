@@ -12,7 +12,15 @@ namespace GiftShopDatabaseImplement.Models
 
         public int ClientId { get; set; }
 
+        public virtual Client Client { get; set; }
+
         public int GiftId { get; set; }
+
+        public virtual Gift Gift { get; set; }
+
+        public int? ImplementerId { get; set; }
+
+        public virtual Implementer Implementer { get; set; }
 
         [Required]
         public int Count { get; set; }

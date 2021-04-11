@@ -19,6 +19,9 @@ namespace GiftShopBusinessLogic.BindingModels
         public int GiftId { get; set; }
 
         [DataMember]
+        public int? ImplementerId { get; set; }
+
+        [DataMember]
         public int Count { get; set; }
 
         [DataMember]
@@ -38,5 +41,7 @@ namespace GiftShopBusinessLogic.BindingModels
 
         [DataMember]
         public DateTime? DateTo { get; set; }
+
+        public bool? FreeOrders { get; set; }
     }
 }

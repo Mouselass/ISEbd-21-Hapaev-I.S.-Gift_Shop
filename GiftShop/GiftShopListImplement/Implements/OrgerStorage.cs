@@ -4,6 +4,7 @@ using System.Text;
 using GiftShopBusinessLogic.BindingModels;
 using GiftShopBusinessLogic.Interfaces;
 using GiftShopBusinessLogic.ViewModels;
+using GiftShopBusinessLogic.Enums;
 using GiftShopListImplement.Models;
 
 namespace GiftShopListImplement.Implements
@@ -35,23 +36,19 @@ namespace GiftShopListImplement.Implements
             }
             List<OrderViewModel> result = new List<OrderViewModel>();
 
-            if (model.DateTo != null && model.DateFrom != null)
+            foreach (var order in source.Orders)
             {
-                foreach (var order in source.Orders)
+                if ((!model.DateFrom.HasValue && !model.DateTo.HasValue &&
+                    order.DateCreate.Date == model.DateCreate.Date) ||
+                    (model.DateFrom.HasValue && model.DateTo.HasValue &&
+                    order.DateCreate.Date >= model.DateFrom.Value.Date && order.DateCreate.Date <=
+                    model.DateTo.Value.Date) ||
+                    (model.ClientId.HasValue && order.ClientId == model.ClientId) ||
+                    (model.FreeOrders.HasValue && model.FreeOrders.Value && order.Status == OrderStatus.Принят) ||
+                    (model.ImplementerId.HasValue && order.ImplementerId ==
+                    model.ImplementerId && order.Status == OrderStatus.Выполняется))
                 {
-                    if (order.DateCreate >= model.DateTo && order.DateCreate <= model.DateFrom)
-                    {
-                        result.Add(CreateModel(order));
-                    }
-                }
-                return result;
-            }
-
-            foreach (var component in source.Orders)
-            {
-                if (component.GiftId.ToString().Contains(model.GiftId.ToString()))
-                {
-                    result.Add(CreateModel(component));
+                    result.Add(CreateModel(order));
                 }
             }
             return result;
@@ -119,6 +116,7 @@ namespace GiftShopListImplement.Implements
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.ClientId = (int)model.ClientId;
+            order.ImplementerId = model.ImplementerId;
             order.GiftId = model.GiftId;
             order.Count = model.Count;
             order.Sum = model.Sum;
@@ -150,6 +148,16 @@ namespace GiftShopListImplement.Implements
                 }
             }
 
+            string implementerFio = null;
+            foreach (var implementer in source.Implementers)
+            {
+                if (implementer.Id == order.GiftId)
+                {
+                    implementerFio = implementer.ImplementerFIO;
+                }
+            }
+
+
             return new OrderViewModel
             {
                 Id = order.Id,
@@ -161,7 +169,8 @@ namespace GiftShopListImplement.Implements
                 Sum = order.Sum,
                 Status = order.Status,
                 GiftName = giftName,
-                ClientFIO = clientFio
+                ClientFIO = clientFio,
+                ImplementerFIO = implementerFio
             };
         }
     }
