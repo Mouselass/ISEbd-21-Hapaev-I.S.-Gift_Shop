@@ -201,7 +201,7 @@ namespace GiftShopDatabaseImplement.Implements
             return warehouse;
         }
 
-        public bool WriteOff(int GiftId, int Count)
+        public bool WriteOff(int Count, int GiftId)
         {
             using (var context = new GiftShopDatabase())
             {
