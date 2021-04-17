@@ -130,7 +130,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
 
         public void SaveWarehousesToWordFile(ReportBindingModel model)
         {
-            SaveToWord.CreateDocStoreHouse(new WordInfoWarehouse
+            SaveToWord.CreateDocWarehouse(new WordInfoWarehouse
             {
                 FileName = model.FileName,
                 Title = "Список складов",

@@ -48,7 +48,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
             }
         }
 
-        public static void CreateDocStoreHouse(WordInfoWarehouse info)
+        public static void CreateDocWarehouse(WordInfoWarehouse info)
         {
             using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(info.FileName, WordprocessingDocumentType.Document))
             {

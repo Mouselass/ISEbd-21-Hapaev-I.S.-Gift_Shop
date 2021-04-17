@@ -66,10 +66,5 @@ namespace GiftShopView
                 }
             }
         }
-
-        private void FormReportOrdersAllDates_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

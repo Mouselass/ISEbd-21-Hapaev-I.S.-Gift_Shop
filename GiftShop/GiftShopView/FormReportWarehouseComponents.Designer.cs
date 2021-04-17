@@ -30,10 +30,10 @@ namespace GiftShopView
         private void InitializeComponent()
         {
             this.DataGridView = new System.Windows.Forms.DataGridView();
-            this.StoreHouse = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buttonSaveToExcel = new System.Windows.Forms.Button();
+            this.Warehouse = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Component = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonSaveToExcel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,7 +43,7 @@ namespace GiftShopView
             this.DataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.StoreHouse,
+            this.Warehouse,
             this.Component,
             this.Count});
             this.DataGridView.Location = new System.Drawing.Point(13, 64);
@@ -52,11 +52,21 @@ namespace GiftShopView
             this.DataGridView.Size = new System.Drawing.Size(470, 418);
             this.DataGridView.TabIndex = 1;
             // 
-            // StoreHouse
+            // buttonSaveToExcel
             // 
-            this.StoreHouse.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.StoreHouse.HeaderText = "Склад";
-            this.StoreHouse.Name = "StoreHouse";
+            this.buttonSaveToExcel.Location = new System.Drawing.Point(12, 22);
+            this.buttonSaveToExcel.Name = "buttonSaveToExcel";
+            this.buttonSaveToExcel.Size = new System.Drawing.Size(159, 21);
+            this.buttonSaveToExcel.TabIndex = 3;
+            this.buttonSaveToExcel.Text = "Сохранить в Excel";
+            this.buttonSaveToExcel.UseVisualStyleBackColor = true;
+            this.buttonSaveToExcel.Click += new System.EventHandler(this.buttonSaveToExcel_Click);
+            // 
+            // Warehouse
+            // 
+            this.Warehouse.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Warehouse.HeaderText = "Склад";
+            this.Warehouse.Name = "Warehouse";
             // 
             // Component
             // 
@@ -69,16 +79,6 @@ namespace GiftShopView
             this.Count.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Count.HeaderText = "Количество";
             this.Count.Name = "Count";
-            // 
-            // buttonSaveToExcel
-            // 
-            this.buttonSaveToExcel.Location = new System.Drawing.Point(12, 22);
-            this.buttonSaveToExcel.Name = "buttonSaveToExcel";
-            this.buttonSaveToExcel.Size = new System.Drawing.Size(159, 21);
-            this.buttonSaveToExcel.TabIndex = 3;
-            this.buttonSaveToExcel.Text = "Сохранить в Excel";
-            this.buttonSaveToExcel.UseVisualStyleBackColor = true;
-            this.buttonSaveToExcel.Click += new System.EventHandler(this.buttonSaveToExcel_Click);
             // 
             // FormReportWarehouseComponents
             // 
@@ -97,9 +97,9 @@ namespace GiftShopView
 
         #endregion
         private System.Windows.Forms.DataGridView DataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StoreHouse;
+        private System.Windows.Forms.Button buttonSaveToExcel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Warehouse;
         private System.Windows.Forms.DataGridViewTextBoxColumn Component;
         private System.Windows.Forms.DataGridViewTextBoxColumn Count;
-        private System.Windows.Forms.Button buttonSaveToExcel;
     }
 }
