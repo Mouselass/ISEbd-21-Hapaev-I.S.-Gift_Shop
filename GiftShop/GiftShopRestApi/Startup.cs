@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GiftShopBusinessLogic.BusinessLogic;
 using GiftShopBusinessLogic.Interfaces;
+using GiftShopBusinessLogic.HelperModels;
 using GiftShopDatabaseImplement.Implements;
 
 namespace GiftShopRestApi
@@ -31,9 +32,18 @@ namespace GiftShopRestApi
             services.AddTransient<IClientStorage, ClientStorage>();
             services.AddTransient<IOrderStorage, OrderStorage>();
             services.AddTransient<IGiftStorage, GiftStorage>();
+            services.AddTransient<IMessageInfoStorage, MessageInfoStorage>();
             services.AddTransient<OrderLogic>();
             services.AddTransient<ClientLogic>();
             services.AddTransient<GiftLogic>();
+            services.AddTransient<MailLogic>();
+            MailLogic.MailConfig(new MailConfig
+            {
+                SmtpClientHost = "smtp.gmail.com",
+                SmtpClientPort = 587,
+                MailLogin = "testforlabsprogramming@gmail.com",
+                MailPassword = "12345qwerty73",
+            });
             services.AddControllers().AddNewtonsoftJson();
         }
 

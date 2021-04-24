@@ -52,7 +52,7 @@ namespace GiftShopListImplement.Implements
             }
             foreach (var client in source.Clients)
             {
-                if (client.Id == model.Id)
+                if (client.Id == model.Id || client.Email == model.Email)
                 {
                     return CreateModel(client);
                 }
