@@ -22,13 +22,11 @@ namespace GiftShopView
 
         private readonly ReportLogic _reportLogic;
 
-        private readonly ClientLogic _clientLogic;
-        public FormMain(OrderLogic orderLogic, ReportLogic reportLogic, ClientLogic clientLogic)
+        public FormMain(OrderLogic orderLogic, ReportLogic reportLogic)
         {
             InitializeComponent();
             this._orderLogic = orderLogic;
             this._reportLogic = reportLogic;
-            this._clientLogic = clientLogic;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
