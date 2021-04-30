@@ -34,7 +34,7 @@ namespace GiftShopDatabaseImplement.Implements
             }
             using (var context = new GiftShopDatabase())
             {
-                return context.Clients.Include(x => x.Order)
+                return context.Clients
                 .Where(rec => rec.Email == model.Email && rec.Password == rec.Password)
                 .Select(rec => new ClientViewModel
                 {
@@ -55,7 +55,7 @@ namespace GiftShopDatabaseImplement.Implements
             }
             using (var context = new GiftShopDatabase())
             {
-                var client = context.Clients.Include(x => x.Order)
+                var client = context.Clients
                 .FirstOrDefault(rec => rec.Email == model.Email || rec.Id == model.Id);
                 return client != null ?
                 new ClientViewModel

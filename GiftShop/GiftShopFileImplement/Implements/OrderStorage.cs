@@ -31,8 +31,7 @@ namespace GiftShopFileImplement.Implements
 
             return source.Orders
                  .Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) || (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate == model.DateCreate) ||
-                 (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date
-                 >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date))
+                 (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date))
                  .Select(CreateModel).ToList();
         }
 
