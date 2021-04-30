@@ -34,7 +34,7 @@ namespace GiftShopDatabaseImplement.Implements
             }
             using (var context = new GiftShopDatabase())
             {
-                return context.Implementers.Include(x => x.Order)
+                return context.Implementers
                 .Where(rec => rec.ImplementerFIO == model.ImplementerFIO)
                 .Select(rec => new ImplementerViewModel
                 {
@@ -55,7 +55,7 @@ namespace GiftShopDatabaseImplement.Implements
             }
             using (var context = new GiftShopDatabase())
             {
-                var implementer = context.Implementers.Include(x => x.Order)
+                var implementer = context.Implementers
                 .FirstOrDefault(rec => rec.Id == model.Id);
                 return implementer != null ?
                 new ImplementerViewModel
@@ -85,7 +85,7 @@ namespace GiftShopDatabaseImplement.Implements
                 var element = context.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
                 if (element == null)
                 {
-                    throw new Exception("Клиент не найден");
+                    throw new Exception("Исполнитель не найден");
                 }
                 CreateModel(model, element);
                 context.SaveChanges();
@@ -104,7 +104,7 @@ namespace GiftShopDatabaseImplement.Implements
                 }
                 else
                 {
-                    throw new Exception("Клиент не найден");
+                    throw new Exception("Исполнитель не найден");
                 }
             }
         }

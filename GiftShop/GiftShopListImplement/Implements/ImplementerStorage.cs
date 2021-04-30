@@ -36,7 +36,7 @@ namespace GiftShopListImplement.Implements
             List<ImplementerViewModel> result = new List<ImplementerViewModel>();
             foreach (var implementer in source.Implementers)
             {
-                if (implementer.ImplementerFIO.ToString().Contains(model.ImplementerFIO.ToString()))
+                if (implementer.ImplementerFIO.Contains(model.ImplementerFIO))
                 {
                     result.Add(CreateModel(implementer));
                 }

@@ -44,19 +44,12 @@ namespace GiftShopDatabaseImplement.Implements
 
             using (var context = new GiftShopDatabase())
             {
-                return context.Orders
-                    .Include(rec => rec.Gift)
-                    .Include(rec => rec.Client)
-                    .Include(rec => rec.Implementer)
-                    .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue &&
-                    rec.DateCreate.Date == model.DateCreate.Date) ||
-                    (model.DateFrom.HasValue && model.DateTo.HasValue &&
-                    rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <=
-                    model.DateTo.Value.Date) ||
+                return context.Orders.Include(rec => rec.Gift).Include(rec => rec.Client).Include(rec => rec.Implementer)
+                    .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
+                    (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
                     (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
                     (model.FreeOrders.HasValue && model.FreeOrders.Value && rec.Status == OrderStatus.Принят) ||
-                    (model.ImplementerId.HasValue && rec.ImplementerId ==
-                    model.ImplementerId && rec.Status == OrderStatus.Выполняется))
+                    (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется))
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
