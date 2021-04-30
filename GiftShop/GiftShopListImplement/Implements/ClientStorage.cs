@@ -36,7 +36,7 @@ namespace GiftShopListImplement.Implements
             List<ClientViewModel> result = new List<ClientViewModel>();
             foreach (var client in source.Clients)
             {
-                if (client.Email.Contains(model.Email))
+                if (client.Email == model.Email && client.Password == model.Password)
                 {
                     result.Add(CreateModel(client));
                 }
@@ -52,7 +52,7 @@ namespace GiftShopListImplement.Implements
             }
             foreach (var client in source.Clients)
             {
-                if (client.Id == model.Id)
+                if (client.Id == model.Id || client.Email == model.Email)
                 {
                     return CreateModel(client);
                 }
