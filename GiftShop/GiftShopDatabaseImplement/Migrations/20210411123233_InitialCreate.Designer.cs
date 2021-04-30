@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GiftShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(GiftShopDatabase))]
-    [Migration("20210226100033_InitialCreate")]
+    [Migration("20210411123233_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -130,7 +130,7 @@ namespace GiftShopDatabaseImplement.Migrations
 
             modelBuilder.Entity("GiftShopDatabaseImplement.Models.Order", b =>
                 {
-                    b.HasOne("GiftShopDatabaseImplement.Models.Gift", null)
+                    b.HasOne("GiftShopDatabaseImplement.Models.Gift", "Gift")
                         .WithMany("Order")
                         .HasForeignKey("GiftId")
                         .OnDelete(DeleteBehavior.Cascade)

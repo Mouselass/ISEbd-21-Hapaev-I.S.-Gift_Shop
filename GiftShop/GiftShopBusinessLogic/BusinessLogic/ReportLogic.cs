@@ -11,20 +11,18 @@ namespace GiftShopBusinessLogic.BusinessLogic
 {
     public class ReportLogic
     {
-        private readonly IComponentStorage _componentStorage;
         private readonly IGiftStorage _giftStorage;
+
         private readonly IOrderStorage _orderStorage;
 
-        public ReportLogic(IGiftStorage giftStorage, IComponentStorage componentStorage, IOrderStorage orderStorage)
+        public ReportLogic(IGiftStorage giftStorage, IOrderStorage orderStorage)
         {
             _giftStorage = giftStorage;
-            _componentStorage = componentStorage;
             _orderStorage = orderStorage;
         }
 
         public List<ReportGiftComponentViewModel> GetComponentsGift()
         {
-            var components = _componentStorage.GetFullList();
             var gifts = _giftStorage.GetFullList();
             var list = new List<ReportGiftComponentViewModel>();
             foreach (var gift in gifts)
@@ -36,13 +34,10 @@ namespace GiftShopBusinessLogic.BusinessLogic
                     TotalCount = 0
                 };
 
-                foreach (var component in components)
+                foreach (var component in gift.GiftComponents)
                 {
-                    if (gift.GiftComponents.ContainsKey(component.Id))
-                    {
-                        record.Components.Add(new Tuple<string, int>(component.ComponentName, gift.GiftComponents[component.Id].Item2));
-                        record.TotalCount += gift.GiftComponents[component.Id].Item2;
-                    }
+                    record.Components.Add(new Tuple<string, int>(component.Value.Item1, component.Value.Item2));
+                    record.TotalCount += component.Value.Item2;
                 }
                 list.Add(record);
             }
