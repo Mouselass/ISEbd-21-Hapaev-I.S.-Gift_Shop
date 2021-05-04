@@ -111,7 +111,7 @@ namespace GiftShopListImplement.Implements
 
         private Order CreateModel(OrderBindingModel model, Order order)
         {
-            order.ClientId = (int)model.ClientId;
+            order.ClientId = model.ClientId.Value;
             order.ImplementerId = model.ImplementerId;
             order.GiftId = model.GiftId;
             order.Count = model.Count;
