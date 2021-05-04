@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GiftShopBusinessLogic.BindingModels;
 using GiftShopBusinessLogic.BusinessLogic;
+using GiftShopBusinessLogic.ViewModels;
 using Unity;
 
 namespace GiftShopView
@@ -20,6 +21,7 @@ namespace GiftShopView
         private readonly OrderLogic _orderLogic;
 
         private readonly ReportLogic _reportLogic;
+
         public FormMain(OrderLogic orderLogic, ReportLogic reportLogic)
         {
             InitializeComponent();
@@ -35,12 +37,13 @@ namespace GiftShopView
             try
             {
                 var list = _orderLogic.Read(null);
+                
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[2].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -178,6 +181,12 @@ namespace GiftShopView
         private void списокЗаказовЗаВесьПериодToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportOrdersAllDates>();
+            form.ShowDialog();
+        }
+
+        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormClients>();
             form.ShowDialog();
         }
     }

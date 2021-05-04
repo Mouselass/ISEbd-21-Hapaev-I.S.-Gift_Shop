@@ -10,6 +10,10 @@ namespace GiftShopDatabaseImplement.Models
     {
         public int Id { get; set; }
 
+        public int ClientId { get; set; }
+
+        public virtual Client Client { get; set; }
+
         public int GiftId { get; set; }
 
         public virtual Gift Gift { get; set; }

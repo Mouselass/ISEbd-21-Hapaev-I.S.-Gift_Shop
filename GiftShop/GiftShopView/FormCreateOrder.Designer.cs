@@ -37,12 +37,14 @@ namespace GiftShopView
             this.textBoxSum = new System.Windows.Forms.TextBox();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.labelClient = new System.Windows.Forms.Label();
+            this.comboBoxClient = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // labelProduct
             // 
             this.labelProduct.AutoSize = true;
-            this.labelProduct.Location = new System.Drawing.Point(13, 13);
+            this.labelProduct.Location = new System.Drawing.Point(15, 58);
             this.labelProduct.Name = "labelProduct";
             this.labelProduct.Size = new System.Drawing.Size(54, 13);
             this.labelProduct.TabIndex = 0;
@@ -51,7 +53,7 @@ namespace GiftShopView
             // labelCount
             // 
             this.labelCount.AutoSize = true;
-            this.labelCount.Location = new System.Drawing.Point(12, 46);
+            this.labelCount.Location = new System.Drawing.Point(15, 91);
             this.labelCount.Name = "labelCount";
             this.labelCount.Size = new System.Drawing.Size(72, 13);
             this.labelCount.TabIndex = 1;
@@ -60,7 +62,7 @@ namespace GiftShopView
             // labelSum
             // 
             this.labelSum.AutoSize = true;
-            this.labelSum.Location = new System.Drawing.Point(13, 72);
+            this.labelSum.Location = new System.Drawing.Point(15, 123);
             this.labelSum.Name = "labelSum";
             this.labelSum.Size = new System.Drawing.Size(45, 13);
             this.labelSum.TabIndex = 2;
@@ -69,7 +71,7 @@ namespace GiftShopView
             // comboBoxGift
             // 
             this.comboBoxGift.FormattingEnabled = true;
-            this.comboBoxGift.Location = new System.Drawing.Point(97, 13);
+            this.comboBoxGift.Location = new System.Drawing.Point(97, 55);
             this.comboBoxGift.Name = "comboBoxGift";
             this.comboBoxGift.Size = new System.Drawing.Size(168, 21);
             this.comboBoxGift.TabIndex = 3;
@@ -77,7 +79,7 @@ namespace GiftShopView
             // 
             // textBoxCount
             // 
-            this.textBoxCount.Location = new System.Drawing.Point(97, 40);
+            this.textBoxCount.Location = new System.Drawing.Point(97, 88);
             this.textBoxCount.Name = "textBoxCount";
             this.textBoxCount.Size = new System.Drawing.Size(168, 22);
             this.textBoxCount.TabIndex = 4;
@@ -85,14 +87,14 @@ namespace GiftShopView
             // 
             // textBoxSum
             // 
-            this.textBoxSum.Location = new System.Drawing.Point(97, 72);
+            this.textBoxSum.Location = new System.Drawing.Point(97, 120);
             this.textBoxSum.Name = "textBoxSum";
             this.textBoxSum.Size = new System.Drawing.Size(168, 22);
             this.textBoxSum.TabIndex = 5;
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(97, 110);
+            this.buttonSave.Location = new System.Drawing.Point(97, 161);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 6;
@@ -102,7 +104,7 @@ namespace GiftShopView
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(190, 110);
+            this.buttonCancel.Location = new System.Drawing.Point(190, 161);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 7;
@@ -110,11 +112,30 @@ namespace GiftShopView
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
+            // labelClient
+            // 
+            this.labelClient.AutoSize = true;
+            this.labelClient.Location = new System.Drawing.Point(15, 24);
+            this.labelClient.Name = "labelClient";
+            this.labelClient.Size = new System.Drawing.Size(48, 13);
+            this.labelClient.TabIndex = 8;
+            this.labelClient.Text = "Клиент:";
+            // 
+            // comboBoxClient
+            // 
+            this.comboBoxClient.FormattingEnabled = true;
+            this.comboBoxClient.Location = new System.Drawing.Point(97, 21);
+            this.comboBoxClient.Name = "comboBoxClient";
+            this.comboBoxClient.Size = new System.Drawing.Size(168, 21);
+            this.comboBoxClient.TabIndex = 9;
+            // 
             // FormCreateOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(279, 148);
+            this.ClientSize = new System.Drawing.Size(279, 196);
+            this.Controls.Add(this.comboBoxClient);
+            this.Controls.Add(this.labelClient);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxSum);
@@ -141,5 +162,7 @@ namespace GiftShopView
         private System.Windows.Forms.TextBox textBoxSum;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.Label labelClient;
+        private System.Windows.Forms.ComboBox comboBoxClient;
     }
 }

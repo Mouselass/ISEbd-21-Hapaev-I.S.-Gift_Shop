@@ -35,11 +35,12 @@ namespace GiftShopListImplement.Implements
             }
             List<OrderViewModel> result = new List<OrderViewModel>();
 
+
             foreach (var order in source.Orders)
             {
                 if ((!model.DateFrom.HasValue && !model.DateTo.HasValue && order.DateCreate.Date == model.DateCreate.Date) ||
-                    (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate.Date >= model.DateFrom.Value.Date
-                    && order.DateCreate.Date <= model.DateTo.Value.Date))
+                    (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate.Date >= model.DateFrom.Value.Date && order.DateCreate.Date <= model.DateTo.Value.Date) ||
+                    (model.ClientId.HasValue && order.ClientId == model.ClientId))
                 {
                     result.Add(CreateModel(order));
                 }
@@ -108,6 +109,7 @@ namespace GiftShopListImplement.Implements
 
         private Order CreateModel(OrderBindingModel model, Order order)
         {
+            order.ClientId = model.ClientId.Value;
             order.GiftId = model.GiftId;
             order.Count = model.Count;
             order.Sum = model.Sum;
@@ -129,16 +131,28 @@ namespace GiftShopListImplement.Implements
                 }
             }
 
+            string clientFio = null;
+
+            foreach (var client in source.Clients)
+            {
+                if (client.Id == order.GiftId)
+                {
+                    clientFio = client.ClientFIO;
+                }
+            }
+
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 GiftId = order.GiftId,
                 Count = order.Count,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Sum = order.Sum,
                 Status = order.Status,
-                GiftName = giftName
+                GiftName = giftName,
+                ClientFIO = clientFio
             };
         }
     }

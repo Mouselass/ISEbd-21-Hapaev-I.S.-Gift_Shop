@@ -20,6 +20,8 @@ namespace GiftShopFileImplement
 
         private readonly string GiftFileName = "Gift.xml";
 
+        private readonly string ClientFileName = "Client.xml";
+
         private readonly string WarehouseFileName = "Warehouse.xml";
 
         public List<Component> Components { get; set; }
@@ -28,6 +30,8 @@ namespace GiftShopFileImplement
 
         public List<Gift> Gifts { get; set; }
 
+        public List<Client> Clients { get; set; }
+
         public List<Warehouse> Warehouses { get; set; }
 
         private FileDataListSingleton()
@@ -35,6 +39,7 @@ namespace GiftShopFileImplement
             Components = LoadComponents();
             Orders = LoadOrders();
             Gifts = LoadGifts();
+            Clients = LoadClients();
             Warehouses = LoadWarehouses();
         }
 
@@ -52,6 +57,7 @@ namespace GiftShopFileImplement
             SaveComponents();
             SaveOrders();
             SaveGifts();
+            SaveClients();
             SaveWarehouses();
         }
 
@@ -109,6 +115,7 @@ namespace GiftShopFileImplement
                     list.Add(new Order
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
                         GiftId = Convert.ToInt32(elem.Element("GiftId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
@@ -140,6 +147,27 @@ namespace GiftShopFileImplement
                         GiftName = elem.Element("GiftName").Value,
                         Price = Convert.ToDecimal(elem.Element("Price").Value),
                         GiftComponents = prodComp
+                    });
+                }
+            }
+            return list;
+        }
+
+        private List<Client> LoadClients()
+        {
+            var list = new List<Client>();
+            if (File.Exists(ClientFileName))
+            {
+                XDocument xDocument = XDocument.Load(ClientFileName);
+                var xElements = xDocument.Root.Elements("Client").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Client
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ClientFIO = elem.Element("ClientFIO").Value,
+                        Email = elem.Element("Email").Value,
+                        Password = elem.Element("Password").Value,
                     });
                 }
             }
@@ -198,6 +226,7 @@ namespace GiftShopFileImplement
                 {
                     xElement.Add(new XElement("Order",
                     new XAttribute("Id", order.Id),
+                    new XElement("ClientId", order.ClientId),
                     new XElement("GiftId", order.GiftId),
                     new XElement("Count", order.Count),
                     new XElement("Sum", order.Sum),
@@ -232,6 +261,24 @@ namespace GiftShopFileImplement
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(GiftFileName);
+            }
+        }
+
+        private void SaveClients()
+        {
+            if (Clients != null)
+            {
+                var xElement = new XElement("Clients");
+                foreach (var client in Clients)
+                {
+                    xElement.Add(new XElement("Client",
+                    new XAttribute("Id", client.Id),
+                    new XElement("ClientFIO", client.ClientFIO),
+                    new XElement("Email", client.Email),
+                    new XElement("Password", client.Password)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ClientFileName);
             }
         }
 
