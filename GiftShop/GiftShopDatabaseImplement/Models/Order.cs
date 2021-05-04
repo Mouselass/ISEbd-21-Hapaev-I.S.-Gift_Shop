@@ -18,6 +18,10 @@ namespace GiftShopDatabaseImplement.Models
 
         public virtual Gift Gift { get; set; }
 
+        public int? ImplementerId { get; set; }
+
+        public virtual Implementer Implementer { get; set; }
+
         [Required]
         public int Count { get; set; }
 
