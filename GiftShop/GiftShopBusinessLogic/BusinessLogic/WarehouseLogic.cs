@@ -11,9 +11,12 @@ namespace GiftShopBusinessLogic.BusinessLogic
     {
         private readonly IWarehouseStorage _warehouseStorage;
 
-        public WarehouseLogic(IWarehouseStorage warehouseStorage)
+        private readonly IComponentStorage _componentStorage;
+
+        public WarehouseLogic(IWarehouseStorage warehouseStorage, IComponentStorage componentStorage)
         {
             _warehouseStorage = warehouseStorage;
+            _componentStorage = componentStorage;
         }
 
         public List<WarehouseViewModel> Read(WarehouseBindingModel model)
@@ -56,32 +59,50 @@ namespace GiftShopBusinessLogic.BusinessLogic
             _warehouseStorage.Delete(model);
         }
 
-        public void Filling(WarehouseBindingModel warehouseBindingModel, int WarehouseId, int ComponentId, int Count, string ComponentName)
+        public void Filling(WarehouseFillingBindingModel model)
         {
-            WarehouseViewModel view = _warehouseStorage.GetElement(new WarehouseBindingModel
+            WarehouseViewModel warehouse = _warehouseStorage.GetElement(new WarehouseBindingModel
             {
-                Id = WarehouseId
+                Id = model.WarehouseId
             });
 
-            if (view != null)
+            ComponentViewModel component = _componentStorage.GetElement(new ComponentBindingModel
             {
-                warehouseBindingModel.WarehouseComponents = view.WarehouseComponents;
-                warehouseBindingModel.DateCreate = view.DateCreate;
-                warehouseBindingModel.Id = view.Id;
-                warehouseBindingModel.Responsible = view.Responsible;
-                warehouseBindingModel.WarehouseName = view.WarehouseName;
+                Id = model.ComponentId
+            });
+
+            if (warehouse == null)
+            {
+                throw new Exception("Склад не найден");
             }
 
-            if (warehouseBindingModel.WarehouseComponents.ContainsKey(ComponentId))
+            if (component == null)
             {
-                int count = warehouseBindingModel.WarehouseComponents[ComponentId].Item2;
-                warehouseBindingModel.WarehouseComponents[ComponentId] = (ComponentName, count + Count);
+                throw new Exception("Компонент не найден");
             }
+
+
+            Dictionary<int, (string, int)> warehouseComponents = warehouse.WarehouseComponents;
+
+            if (warehouseComponents.ContainsKey(model.ComponentId))
+            {
+                int count = warehouseComponents[model.ComponentId].Item2;
+                warehouseComponents[model.ComponentId] = (component.ComponentName, count + model.Count);
+            }
+
             else
             {
-                warehouseBindingModel.WarehouseComponents.Add(ComponentId, (ComponentName, Count));
+                warehouseComponents.Add(model.ComponentId, (component.ComponentName, model.Count));
             }
-            _warehouseStorage.Update(warehouseBindingModel);
+
+            _warehouseStorage.Update(new WarehouseBindingModel
+            {
+                Id = warehouse.Id,
+                WarehouseName = warehouse.WarehouseName,
+                Responsible = warehouse.Responsible,
+                DateCreate = warehouse.DateCreate,
+                WarehouseComponents = warehouseComponents
+            });
         }
     }
 }

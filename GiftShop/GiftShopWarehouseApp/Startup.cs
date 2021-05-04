@@ -1,26 +1,22 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GiftShopBusinessLogic.BusinessLogic;
-using GiftShopBusinessLogic.Interfaces;
-using GiftShopDatabaseImplement.Implements;
 
-namespace GiftShopRestApi
+namespace GiftShopWarehouseApp
 {
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            APIEmployer.Connect(configuration);
         }
 
         public IConfiguration Configuration { get; }
@@ -28,17 +24,7 @@ namespace GiftShopRestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IClientStorage, ClientStorage>();
-            services.AddTransient<IOrderStorage, OrderStorage>();
-            services.AddTransient<IGiftStorage, GiftStorage>();
-            services.AddTransient<IComponentStorage, ComponentStorage>();
-            services.AddTransient<IWarehouseStorage, WarehouseStorage>();
-            services.AddTransient<OrderLogic>();
-            services.AddTransient<ClientLogic>();
-            services.AddTransient<GiftLogic>();
-            services.AddTransient<ComponentLogic>();
-            services.AddTransient<WarehouseLogic>();
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,8 +34,14 @@ namespace GiftShopRestApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -57,7 +49,9 @@ namespace GiftShopRestApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
