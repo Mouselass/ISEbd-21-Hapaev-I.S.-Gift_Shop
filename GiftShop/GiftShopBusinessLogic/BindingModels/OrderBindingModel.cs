@@ -43,5 +43,7 @@ namespace GiftShopBusinessLogic.BindingModels
         public DateTime? DateTo { get; set; }
 
         public bool? FreeOrders { get; set; }
+
+        public bool? NeedComponentOrders { get; set; }
     }
 }

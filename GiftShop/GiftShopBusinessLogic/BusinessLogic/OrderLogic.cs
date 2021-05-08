@@ -64,7 +64,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 {
                     throw new Exception("У заказа уже есть исполнитель");
                 }
-                _orderStorage.Update(new OrderBindingModel
+                OrderBindingModel orderModel = new OrderBindingModel
                 {
                     Id = order.Id,
                     ClientId = order.ClientId,
@@ -75,7 +75,12 @@ namespace GiftShopBusinessLogic.BusinessLogic
                     DateCreate = order.DateCreate,
                     DateImplement = DateTime.Now,
                     Status = OrderStatus.Выполняется
-                });
+                };
+                if (!_warehouseStorage.WriteOff(order.GiftId, order.Count))
+                {
+                    orderModel.Status = OrderStatus.ТребуютсяМатериалы;
+                }
+                _orderStorage.Update(orderModel);
             }
         }
 
@@ -86,9 +91,13 @@ namespace GiftShopBusinessLogic.BusinessLogic
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status != OrderStatus.Выполняется)
+            if (order.Status != OrderStatus.Выполняется && order.Status != OrderStatus.ТребуютсяМатериалы)
             {
-                throw new Exception("Заказ не в статусе \"Выполняется\"");
+                throw new Exception("Заказ не в статусе \"Выполняется\"или \"Требуются материалы\"");
+            }
+            if (!_warehouseStorage.WriteOff(order.GiftId, order.Count))
+            {
+                return;
             }
             _orderStorage.Update(new OrderBindingModel
             {

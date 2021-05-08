@@ -40,6 +40,9 @@ namespace GiftShopBusinessLogic.BusinessLogic
         {
             // ищем заказы, которые уже в работе (вдруг исполнителя прервали)
             var runOrders = await Task.Run(() => _orderStorage.GetFilteredList(new OrderBindingModel { ImplementerId = implementer.Id }));
+
+            var needComponentOrders = await Task.Run(() => _orderStorage.GetFilteredList(new OrderBindingModel { NeedComponentOrders = true, ImplementerId = implementer.Id }));
+
             foreach (var order in runOrders)
             {
                 // делаем работу заново
@@ -48,6 +51,14 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 // отдыхаем
                 Thread.Sleep(implementer.PauseTime);
             }
+
+            foreach (var order in needComponentOrders)
+            {
+                Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) * order.Count);
+                _orderLogic.FinishOrder(new ChangeStatusBindingModel { OrderId = order.Id, ImplementerId = implementer.Id });
+                Thread.Sleep(implementer.PauseTime);
+            }
+
             await Task.Run(() =>
             {
                 foreach (var order in orders)
