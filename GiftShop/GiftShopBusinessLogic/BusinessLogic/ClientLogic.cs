@@ -22,7 +22,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
             {
                 return _clientStorage.GetFullList();
             }
-            if (model.Id.HasValue)
+            if (model.Id.HasValue || model.Email != null)
             {
                 return new List<ClientViewModel> { _clientStorage.GetElement(model) };
             }
