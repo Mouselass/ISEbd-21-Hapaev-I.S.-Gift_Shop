@@ -27,8 +27,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
 
         private readonly IClientStorage _clientStorage;
 
-        public MailLogic(IMessageInfoStorage messageInfoStorage, IClientStorage
-        clientStorage)
+        public MailLogic(IMessageInfoStorage messageInfoStorage, IClientStorage clientStorage)
         {
             _messageInfoStorage = messageInfoStorage;
             _clientStorage = clientStorage;
@@ -77,8 +76,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
             }
             using (var objMailMessage = new MailMessage())
             {
-                using (var objSmtpClient = new SmtpClient(smtpClientHost,
-                smtpClientPort))
+                using (var objSmtpClient = new SmtpClient(smtpClientHost, smtpClientPort))
                 {
                     try
                     {
@@ -91,8 +89,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
                         objSmtpClient.UseDefaultCredentials = false;
                         objSmtpClient.EnableSsl = true;
                         objSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        objSmtpClient.Credentials = new NetworkCredential(mailLogin,
-                        mailPassword);
+                        objSmtpClient.Credentials = new NetworkCredential(mailLogin, mailPassword);
                         await Task.Run(() => objSmtpClient.Send(objMailMessage));
                     }
                     catch (Exception)
@@ -137,10 +134,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
                                     FromMailAddress = mail.Address,
                                     Subject = message.Subject,
                                     Body = message.TextBody,
-                                    ClientId = info.ClientStorage.GetElement(new ClientBindingModel
-                                    {
-                                        Email = mail.Address
-                                    })?.Id
+                                    ClientId = info.ClientStorage.GetElement(new ClientBindingModel { Email = mail.Address })?.Id
                                 });
                             }
                         }
