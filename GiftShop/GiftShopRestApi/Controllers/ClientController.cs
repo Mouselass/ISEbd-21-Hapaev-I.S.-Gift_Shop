@@ -55,8 +55,7 @@ namespace GiftShopRestApi.Controllers
             {
                 throw new Exception("В качестве логина должна быть указана почта");
             }
-            if (model.Password.Length > _passwordMaxLength || model.Password.Length <
-            _passwordMinLength || !Regex.IsMatch(model.Password,
+            if (model.Password.Length > _passwordMaxLength || model.Password.Length < _passwordMinLength || !Regex.IsMatch(model.Password,
             @"^((\w+\d+\W+)|(\w+\W+\d+)|(\d+\w+\W+)|(\d+\W+\w+)|(\W+\w+\d+)|(\W+\d+\w+))[\w\d\W]*$"))
             {
                 throw new Exception($"Пароль длиной от {_passwordMinLength} до {_passwordMaxLength } должен состоять и из цифр, букв и небуквенных символов");

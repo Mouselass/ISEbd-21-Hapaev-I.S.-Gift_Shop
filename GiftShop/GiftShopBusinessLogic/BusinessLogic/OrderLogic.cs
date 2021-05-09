@@ -96,7 +96,6 @@ namespace GiftShopBusinessLogic.BusinessLogic
                     orderModel.Status = OrderStatus.ТребуютсяМатериалы;
                 }
                 _orderStorage.Update(orderModel);
-                });
 
                 MailLogic.MailSendAsync(new MailSendInfo
                 {

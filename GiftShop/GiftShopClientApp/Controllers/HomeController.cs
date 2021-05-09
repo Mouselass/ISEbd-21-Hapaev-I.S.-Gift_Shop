@@ -141,13 +141,22 @@ namespace GiftShopClientApp.Controllers
             return count * prod.Price;
         }
 
-        public IActionResult Mails()
+        public IActionResult Mails(int page = 1)
         {
             if (Program.Client == null)
             {
                 return Redirect("~/Home/Enter");
             }
-            return View(APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/GetMessages?clientId={Program.Client.Id}"));
+            int pageSize = 7;   // количество элементов на странице
+
+            var messageList = APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/GetMessages?clientId={Program.Client.Id}");
+            var count = messageList.Count();
+            var messages = messageList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            IndexViewModel viewModel = new IndexViewModel { PageViewModel = pageViewModel, Messages = messages };
+
+            return View(viewModel);
         }
     }
 }
