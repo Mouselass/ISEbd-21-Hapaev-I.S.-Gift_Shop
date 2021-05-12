@@ -147,16 +147,11 @@ namespace GiftShopClientApp.Controllers
             {
                 return Redirect("~/Home/Enter");
             }
-            int pageSize = 7;   // количество элементов на странице
 
-            var messageList = APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/GetMessages?clientId={Program.Client.Id}");
-            var count = messageList.Count();
-            var messages = messageList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
-            IndexViewModel viewModel = new IndexViewModel { PageViewModel = pageViewModel, Messages = messages };
-
-            return View(viewModel);
+            int pageSize = 7; 
+            
+            PageViewModel index = APIClient.GetRequest<PageViewModel>($"api/client/GetPage?pageSize={pageSize}&page={page}&ClientId={Program.Client.Id}");
+            return View(index);
         }
     }
 }

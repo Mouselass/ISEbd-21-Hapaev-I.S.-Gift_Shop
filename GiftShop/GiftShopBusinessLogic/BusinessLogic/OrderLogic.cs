@@ -5,7 +5,6 @@ using GiftShopBusinessLogic.Enums;
 using GiftShopBusinessLogic.BindingModels;
 using GiftShopBusinessLogic.Interfaces;
 using GiftShopBusinessLogic.ViewModels;
-using GiftShopBusinessLogic.HelperModels;
 
 namespace GiftShopBusinessLogic.BusinessLogic
 {
@@ -15,14 +14,10 @@ namespace GiftShopBusinessLogic.BusinessLogic
 
         private readonly IWarehouseStorage _warehouseStorage;
 
-        private readonly IClientStorage _clientStorage;
-
         private readonly object locker = new object();
-
-        public OrderLogic(IOrderStorage orderStorage, IClientStorage clientStorage, IWarehouseStorage warehouseStorage)
+        public OrderLogic(IOrderStorage orderStorage, IWarehouseStorage warehouseStorage)
         {
             _orderStorage = orderStorage;
-            _clientStorage = clientStorage;
             _warehouseStorage = warehouseStorage;
         }
 
@@ -50,16 +45,6 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 Status = OrderStatus.Принят,
                 ClientId = model.ClientId
             });
-
-            MailLogic.MailSendAsync(new MailSendInfo
-            {
-                MailAddress = _clientStorage.GetElement(new ClientBindingModel
-                {
-                    Id = model.ClientId
-                })?.Email,
-                Subject = $"Новый заказ",
-                Text = $"Заказ от {DateTime.Now} на сумму {model.Sum:N2} принят."
-            });
         }
 
         public void TakeOrderInWork(ChangeStatusBindingModel model)
@@ -71,9 +56,9 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 {
                     throw new Exception("Не найден заказ");
                 }
-                if (order.Status != OrderStatus.Принят)
+                if (order.Status != OrderStatus.Принят && order.Status != OrderStatus.ТребуютсяМатериалы)
                 {
-                    throw new Exception("Заказ не в статусе \"Принят\"");
+                    throw new Exception("Заказ не в статусе \"Принят\" или \"Требуются материалы\"");
                 }
                 if (order.ImplementerId.HasValue)
                 {
@@ -82,30 +67,21 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 OrderBindingModel orderModel = new OrderBindingModel
                 {
                     Id = order.Id,
-                    ClientId = order.ClientId,
-                    ImplementerId = model.ImplementerId,
                     GiftId = order.GiftId,
                     Count = order.Count,
                     Sum = order.Sum,
                     DateCreate = order.DateCreate,
                     DateImplement = DateTime.Now,
-                    Status = OrderStatus.Выполняется
+                    Status = OrderStatus.Выполняется,
+                    ClientId = order.ClientId,
+                    ImplementerId = model.ImplementerId
                 };
                 if (!_warehouseStorage.WriteOff(order.GiftId, order.Count))
                 {
                     orderModel.Status = OrderStatus.ТребуютсяМатериалы;
+                    orderModel.ImplementerId = null;
                 }
                 _orderStorage.Update(orderModel);
-
-                MailLogic.MailSendAsync(new MailSendInfo
-                {
-                    MailAddress = _clientStorage.GetElement(new ClientBindingModel
-                    {
-                        Id = order.ClientId
-                    })?.Email,
-                    Subject = $"Заказ №{order.Id}",
-                    Text = $"Заказ №{order.Id} передан в работу."
-                });
             }
         }
 
@@ -116,13 +92,9 @@ namespace GiftShopBusinessLogic.BusinessLogic
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status != OrderStatus.Выполняется && order.Status != OrderStatus.ТребуютсяМатериалы)
+            if (order.Status != OrderStatus.Выполняется)
             {
-                throw new Exception("Заказ не в статусе \"Выполняется\"или \"Требуются материалы\"");
-            }
-            if (!_warehouseStorage.WriteOff(order.GiftId, order.Count))
-            {
-                return;
+                throw new Exception("Заказ не в статусе \"Выполняется\"");
             }
             _orderStorage.Update(new OrderBindingModel
             {
@@ -135,16 +107,6 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 Status = OrderStatus.Готов,
                 ClientId = order.ClientId,
                 ImplementerId = order.ImplementerId
-            });
-
-            MailLogic.MailSendAsync(new MailSendInfo
-            {
-                MailAddress = _clientStorage.GetElement(new ClientBindingModel
-                {
-                    Id = order.ClientId
-                })?.Email,
-                Subject = $"Заказ №{order.Id}",
-                Text = $"Заказ №{order.Id} выполнен."
             });
         }
 
@@ -159,7 +121,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
             {
                 throw new Exception("Заказ не в статусе \"Готов\"");
             }
-            _orderStorage.Update(new OrderBindingModel 
+            _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
                 GiftId = order.GiftId,
@@ -168,18 +130,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен,
-                ClientId = order.ClientId,
-                ImplementerId = order.ImplementerId
-            });
-
-            MailLogic.MailSendAsync(new MailSendInfo
-            {
-                MailAddress = _clientStorage.GetElement(new ClientBindingModel
-                {
-                    Id = order.ClientId
-                })?.Email,
-                Subject = $"Заказ №{order.Id}",
-                Text = $"Заказ №{order.Id} оплачен."
+                ClientId = order.ClientId
             });
         }
     }
