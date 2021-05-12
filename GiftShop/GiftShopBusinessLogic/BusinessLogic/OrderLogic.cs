@@ -56,9 +56,9 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 {
                     throw new Exception("Не найден заказ");
                 }
-                if (order.Status != OrderStatus.Принят)
+                if (order.Status != OrderStatus.Принят && order.Status != OrderStatus.ТребуютсяМатериалы)
                 {
-                    throw new Exception("Заказ не в статусе \"Принят\"");
+                    throw new Exception("Заказ не в статусе \"Принят\" или \"Требуются материалы\"");
                 }
                 if (order.ImplementerId.HasValue)
                 {
@@ -67,18 +67,19 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 OrderBindingModel orderModel = new OrderBindingModel
                 {
                     Id = order.Id,
-                    ClientId = order.ClientId,
-                    ImplementerId = model.ImplementerId,
-                    GiftId = order.GiftId,
+                    GiftId = order.GiftId,                   
                     Count = order.Count,
                     Sum = order.Sum,
                     DateCreate = order.DateCreate,
                     DateImplement = DateTime.Now,
-                    Status = OrderStatus.Выполняется
+                    Status = OrderStatus.Выполняется,
+                    ClientId = order.ClientId,
+                    ImplementerId = model.ImplementerId
                 };
                 if (!_warehouseStorage.WriteOff(order.GiftId, order.Count))
                 {
                     orderModel.Status = OrderStatus.ТребуютсяМатериалы;
+                    orderModel.ImplementerId = null;
                 }
                 _orderStorage.Update(orderModel);
             }
@@ -91,13 +92,9 @@ namespace GiftShopBusinessLogic.BusinessLogic
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status != OrderStatus.Выполняется && order.Status != OrderStatus.ТребуютсяМатериалы)
+            if (order.Status != OrderStatus.Выполняется)
             {
-                throw new Exception("Заказ не в статусе \"Выполняется\"или \"Требуются материалы\"");
-            }
-            if (!_warehouseStorage.WriteOff(order.GiftId, order.Count))
-            {
-                return;
+                throw new Exception("Заказ не в статусе \"Выполняется\"");
             }
             _orderStorage.Update(new OrderBindingModel
             {
