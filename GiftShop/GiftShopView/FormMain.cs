@@ -11,6 +11,7 @@ using GiftShopBusinessLogic.BindingModels;
 using GiftShopBusinessLogic.BusinessLogic;
 using GiftShopBusinessLogic.ViewModels;
 using Unity;
+using System.Reflection;
 
 namespace GiftShopView
 {
@@ -93,7 +94,8 @@ namespace GiftShopView
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    _reportLogic.SaveGiftsToWordFile(new ReportBindingModel { FileName = dialog.FileName });
+                    MethodInfo method = _reportLogic.GetType().GetMethod("SaveGiftsToWordFile");
+                    method.Invoke(_reportLogic, new object[] { new ReportBindingModel { FileName = dialog.FileName } });
                     MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -129,10 +131,8 @@ namespace GiftShopView
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    _reportLogic.SaveWarehousesToWordFile(new ReportBindingModel
-                    {
-                        FileName = dialog.FileName
-                    });
+                    MethodInfo method = _reportLogic.GetType().GetMethod("SaveWarehousesToWordFile");
+                    method.Invoke(_reportLogic, new object[] {new ReportBindingModel { FileName = dialog.FileName } });
 
                     MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

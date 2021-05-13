@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using Unity;
 using GiftShopBusinessLogic.BindingModels;
 using GiftShopBusinessLogic.BusinessLogic;
+using GiftShopBusinessLogic.ViewModels;
+using System.Reflection;
 
 namespace GiftShopView
 {
@@ -29,7 +31,8 @@ namespace GiftShopView
         {
             try
             {
-                var dict = logic.GetComponentsGift();
+                MethodInfo method = logic.GetType().GetMethod("GetComponentsGift");
+                List<ReportGiftComponentViewModel> dict = (List<ReportGiftComponentViewModel>) method.Invoke(logic, new object[] { });
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();
@@ -58,10 +61,8 @@ namespace GiftShopView
                 {
                     try
                     {
-                        logic.SaveComponentGiftToExcelFile(new ReportBindingModel
-                        {
-                            FileName = dialog.FileName
-                        });
+                        MethodInfo method = logic.GetType().GetMethod("SaveComponentGiftToExcelFile");
+                        method.Invoke(logic, new object[] { new ReportBindingModel { FileName = dialog.FileName } });
                         MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)

@@ -123,7 +123,6 @@ namespace GiftShopView
             this.Controls.Add(this.panel);
             this.Name = "FormReportOrders";
             this.Text = "Заказы клиентов";
-            this.Load += new System.EventHandler(this.FormReportOrders_Load);
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();
             this.ResumeLayout(false);

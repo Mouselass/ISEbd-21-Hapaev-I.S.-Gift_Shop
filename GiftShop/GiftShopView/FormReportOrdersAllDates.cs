@@ -10,7 +10,9 @@ using System.Windows.Forms;
 using Microsoft.Reporting.WinForms;
 using GiftShopBusinessLogic.BindingModels;
 using GiftShopBusinessLogic.BusinessLogic;
+using GiftShopBusinessLogic.ViewModels;
 using Unity;
+using System.Reflection;
 
 namespace GiftShopView
 {
@@ -31,7 +33,8 @@ namespace GiftShopView
         {
             try
             {
-                var dataSource = logic.GetOrdersForAllDates();
+                MethodInfo method = logic.GetType().GetMethod("GetOrdersForAllDates");
+                List<ReportOrdersAllDatesViewModel> dataSource = (List<ReportOrdersAllDatesViewModel>)method.Invoke(logic, new object[] { });
 
                 ReportDataSource source = new ReportDataSource("DataSetOrdersAllDate", dataSource);
                 reportViewer.LocalReport.DataSources.Add(source);
@@ -52,10 +55,8 @@ namespace GiftShopView
                 {
                     try
                     {
-                        logic.SaveOrdersAllDatesToPdfFile(new ReportBindingModel
-                        {
-                            FileName = dialog.FileName
-                        });
+                        MethodInfo method = logic.GetType().GetMethod("SaveOrdersAllDatesToPdfFile");
+                        method.Invoke(logic, new object[] { new ReportBindingModel { FileName = dialog.FileName } });
 
                         MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
