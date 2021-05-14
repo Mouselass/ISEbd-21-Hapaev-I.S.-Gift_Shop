@@ -130,7 +130,8 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен,
-                ClientId = order.ClientId
+                ClientId = order.ClientId,
+                ImplementerId = order.ImplementerId
             });
         }
     }
