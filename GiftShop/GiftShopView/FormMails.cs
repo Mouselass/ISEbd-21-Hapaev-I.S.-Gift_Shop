@@ -44,9 +44,7 @@ namespace GiftShopView
             {
                 pageViewModel = new PageViewModel(logic.Count(), page, pageSize, list);
 
-                dataGridView.DataSource = pageViewModel.Messages;
-                dataGridView.Columns[0].Visible = false;
-                dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                Program.ConfigGrid(pageViewModel.Messages, dataGridView);
             }
         }
 

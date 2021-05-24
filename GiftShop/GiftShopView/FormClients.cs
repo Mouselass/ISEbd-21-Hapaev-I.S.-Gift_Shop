@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using Unity;
 using GiftShopBusinessLogic.BindingModels;
 using GiftShopBusinessLogic.BusinessLogic;
+using GiftShopBusinessLogic.ViewModels;
+using System.Reflection;
 
 namespace GiftShopView
 {
@@ -35,7 +37,9 @@ namespace GiftShopView
         {
             try
             {
-                Program.ConfigGrid(logic.Read(null), dataGridView);
+                var method = typeof(Program).GetMethod("ConfigGrid");
+                MethodInfo generic = method.MakeGenericMethod(typeof(ClientViewModel));
+                generic.Invoke(this, new object[] { logic.Read(null), dataGridView });
             }
             catch (Exception ex)
             {

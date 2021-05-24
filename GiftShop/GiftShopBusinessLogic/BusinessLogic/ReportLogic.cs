@@ -6,6 +6,7 @@ using GiftShopBusinessLogic.HelperModels;
 using GiftShopBusinessLogic.Interfaces;
 using GiftShopBusinessLogic.ViewModels;
 using GiftShopBusinessLogic.Enums;
+using System.Reflection;
 
 namespace GiftShopBusinessLogic.BusinessLogic
 {
@@ -108,23 +109,25 @@ namespace GiftShopBusinessLogic.BusinessLogic
 
         public void SaveComponentGiftToExcelFile(ReportBindingModel model)
         {
+            MethodInfo method = GetType().GetMethod("GetComponentsGift");
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,
                 Title = "Список изделий",
-                ComponentGifts = GetComponentsGift()
+                ComponentGifts = (List<ReportGiftComponentViewModel>)method.Invoke(this, new object[] { })
             });
         }
 
         public void SaveOrdersToPdfFile(ReportBindingModel model)
         {
+            MethodInfo method = GetType().GetMethod("GetOrders");
             SaveToPdf.CreateDoc(new PdfInfo
             {
                 FileName = model.FileName,
                 Title = "Список заказов",
                 DateFrom = model.DateFrom.Value,
                 DateTo = model.DateTo.Value,
-                Orders = GetOrders(model)
+                Orders = (List<ReportOrdersViewModel>)method.Invoke(this, new object[] { new ReportBindingModel { DateFrom = model.DateFrom.Value, DateTo = model.DateTo.Value } })
             });
         }
 
@@ -140,21 +143,23 @@ namespace GiftShopBusinessLogic.BusinessLogic
 
         public void SaveWarehouseComponentsToExcelFile(ReportBindingModel model)
         {
+            MethodInfo method = GetType().GetMethod("GetWarehouseComponents");
             SaveToExcel.CreateDocWarehouse(new ExcelInfoWarehouse
             {
                 FileName = model.FileName,
                 Title = "Список складов",
-                WarehouseComponents = GetWarehouseComponents()
+                WarehouseComponents = (List<ReportWarehouseComponentViewModel>)method.Invoke(this, null)
             });
         }
 
         public void SaveOrdersAllDatesToPdfFile(ReportBindingModel model)
         {
+            MethodInfo method = GetType().GetMethod("GetOrdersForAllDates");
             SaveToPdf.CreateDocOrdersAllDates(new PdfInfoOrdersAllDates
             {
                 FileName = model.FileName,
                 Title = "Список заказов",
-                Orders = GetOrdersForAllDates()
+                Orders = (List<ReportOrdersAllDatesViewModel>)method.Invoke(this, null)
             });
         }
     }

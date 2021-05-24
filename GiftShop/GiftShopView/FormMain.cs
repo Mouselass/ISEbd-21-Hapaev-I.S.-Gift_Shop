@@ -43,7 +43,9 @@ namespace GiftShopView
         {
             try
             {
-                Program.ConfigGrid(_orderLogic.Read(null), dataGridView);
+                var method = typeof(Program).GetMethod("ConfigGrid");
+                MethodInfo generic = method.MakeGenericMethod(typeof(OrderViewModel));
+                generic.Invoke(this, new object[] { _orderLogic.Read(null), dataGridView });
             }
             catch (Exception ex)
             {

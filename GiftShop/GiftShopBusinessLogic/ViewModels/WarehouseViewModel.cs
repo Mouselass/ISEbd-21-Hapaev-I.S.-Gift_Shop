@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
+using GiftShopBusinessLogic.Attributes;
 
 namespace GiftShopBusinessLogic.ViewModels
 {
@@ -9,13 +10,13 @@ namespace GiftShopBusinessLogic.ViewModels
     {
         public int Id { get; set; }
 
-        [DisplayName("Склад")]
+        [Column(title: "Склад", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string WarehouseName { get; set; }
 
-        [DisplayName("Ответственный")]
+        [Column(title: "Ответственный", width: 150)]
         public string Responsible { get; set; }
 
-        [DisplayName("Дата создания")]
+        [Column(title: "Дата создания", width: 100, dateFormat: "D")]
         public DateTime DateCreate { get; set; }
         
 

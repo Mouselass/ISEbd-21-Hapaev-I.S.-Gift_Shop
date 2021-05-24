@@ -49,11 +49,11 @@ namespace GiftShopBusinessLogic.ViewModels
         public OrderStatus Status { get; set; }
 
         [DataMember]
-        [Column(title: "Дата создания", width: 100, dateFormat: "d")]
+        [Column(title: "Дата создания", width: 100, dateFormat: "D")]
         public DateTime DateCreate { get; set; }
 
         [DataMember]
-        [Column(title: "Дата выполнения", width: 100, dateFormat: "d")]
+        [Column(title: "Дата выполнения", width: 100, dateFormat: "D")]
         public DateTime? DateImplement { get; set; }
     }
 }

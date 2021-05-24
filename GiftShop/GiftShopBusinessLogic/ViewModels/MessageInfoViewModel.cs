@@ -19,7 +19,7 @@ namespace GiftShopBusinessLogic.ViewModels
         public string SenderName { get; set; }
 
         [DataMember]
-        [Column(title: "Дата письма", width: 100)]
+        [Column(title: "Дата письма", width: 100, dateFormat: "D")]
         public DateTime DateDelivery { get; set; }
 
         [DataMember]
