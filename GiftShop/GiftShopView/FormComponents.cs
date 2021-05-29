@@ -36,9 +36,7 @@ namespace GiftShopView
         {
             try
             {
-                var method = typeof(Program).GetMethod("ConfigGrid");
-                MethodInfo generic = method.MakeGenericMethod(typeof(ComponentViewModel));
-                generic.Invoke(this, new object[] { logic.Read(null), dataGridView });
+                Program.ConfigGrid(logic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {
