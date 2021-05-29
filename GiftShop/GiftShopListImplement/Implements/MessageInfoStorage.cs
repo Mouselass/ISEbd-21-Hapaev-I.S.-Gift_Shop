@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using GiftShopBusinessLogic.BindingModels;
 using GiftShopBusinessLogic.ViewModels;
+using GiftShopBusinessLogic.Interfaces;
 using GiftShopListImplement.Models;
 
 namespace GiftShopListImplement.Implements
 {
-    public class MessageInfoStorage
+    public class MessageInfoStorage : IMessageInfoStorage
     {
         private readonly DataListSingleton source;
 
@@ -121,6 +122,16 @@ namespace GiftShopListImplement.Implements
                 Body = messageInfo.Body,
                 DateDelivery = messageInfo.DateDelivery
             };
+        }
+
+        public int Count()
+        {
+            return source.MessageInfoes.Count;
+        }
+
+        public List<MessageInfoViewModel> GetMessagesForPage(MessageInfoBindingModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

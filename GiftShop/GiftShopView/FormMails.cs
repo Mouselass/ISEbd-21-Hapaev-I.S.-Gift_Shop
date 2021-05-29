@@ -46,9 +46,29 @@ namespace GiftShopView
 
                 Program.ConfigGrid(pageViewModel.Messages, dataGridView);
             }
+
+            int pageStart = page < 3 ? 1 : page - 2;
+            Button[] buttons = { buttonPage1, buttonPage2, buttonPage3, buttonPage4, buttonPage5 };
+            for (int i = 0; i < buttons.Length; ++i)
+            {
+                buttons[i].Show();
+                SetButtonPagetext(buttons[i], pageStart + i, pageViewModel.TotalPages);
+            }
         }
 
-        private void buttonNext_Click(object sender, EventArgs e)
+        private void SetButtonPagetext(Button button, int pageNumber, int totalPages)
+        {
+            if (pageNumber <= totalPages)
+            {
+                button.Text = pageNumber.ToString();
+            }
+            else
+            {
+                button.Hide();
+            }
+        }
+
+            private void buttonNext_Click(object sender, EventArgs e)
         {
             if (pageViewModel.HasNextPage)
             {
@@ -70,6 +90,11 @@ namespace GiftShopView
             {
                 MessageBox.Show("Это первая страница", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void buttonPage_Click(object sender, EventArgs e)
+        {
+            LoadData(Convert.ToInt32(((Button)sender).Text));
         }
     }
 }

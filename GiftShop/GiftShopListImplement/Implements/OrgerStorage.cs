@@ -148,7 +148,7 @@ namespace GiftShopListImplement.Implements
             string implementerFio = null;
             foreach (var implementer in source.Implementers)
             {
-                if (implementer.Id == order.GiftId)
+                if (implementer.Id == order.ImplementerId)
                 {
                     implementerFio = implementer.ImplementerFIO;
                 }
@@ -167,7 +167,7 @@ namespace GiftShopListImplement.Implements
                 Status = order.Status,
                 GiftName = giftName,
                 ClientFIO = clientFio,
-                ImplementerFIO = implementerFio
+                ImplementerFIO = order.ImplementerId.HasValue ? implementerFio : string.Empty
             };
         }
     }
